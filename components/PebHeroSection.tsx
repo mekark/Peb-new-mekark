@@ -93,33 +93,6 @@ export default function PebHeroSection() {
 
         if (!validateForm()) return;
 
-        // WHATSAPP MESSAGE
-        const whatsappMessage = `
-Hello Mekark,
-
-I would like to enquire about a PEB project.
-
-Name: ${formData.name}
-Company: ${formData.company}
-Phone: ${formData.phone}
-Email: ${formData.email}
-Location: ${formData.location}
-Industry: ${formData.industry}
-Sq.ft Requirement: ${formData.sqft}
-
-Requirement Details:
-${formData.message}
-  `;
-
-        // ENCODE MESSAGE
-        const encodedMessage = encodeURIComponent(whatsappMessage);
-
-        // WHATSAPP URL
-        const whatsappURL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
-
-        // OPEN WHATSAPP
-        window.open(whatsappURL, "_blank");
-
         // REDIRECT TO THANK YOU PAGE
         setTimeout(() => {
             window.location.href = THANK_YOU_URL;
@@ -195,9 +168,9 @@ ${formData.message}
                   max-w-[860px]
                 "
                             >
-{/* TOP BADGE */}
-<div
-  className="
+                                {/* TOP BADGE */}
+                                <div
+                                    className="
     inline-flex
     items-center
 
@@ -226,10 +199,10 @@ ${formData.message}
 
     max-w-full
   "
->
-  {/* DOT */}
-  <div
-    className="
+                                >
+                                    {/* DOT */}
+                                    <div
+                                        className="
       w-2
       h-2
 
@@ -239,11 +212,11 @@ ${formData.message}
 
       shrink-0
     "
-  />
+                                    />
 
-  {/* TEXT */}
-  <span
-    className="
+                                    {/* TEXT */}
+                                    <span
+                                        className="
       text-white
 
       text-[12px]
@@ -259,14 +232,14 @@ ${formData.message}
 
       whitespace-nowrap
     "
-  >
-    Chennai's Premier PEB Manufacturer
-  </span>
-</div>
+                                    >
+                                        Chennai's Premier PEB Manufacturer
+                                    </span>
+                                </div>
 
-{/* HEADING */}
-<h1
-  className="
+                                {/* HEADING */}
+                                <h1
+                                    className="
     font-manrope
 
     font-semibold
@@ -293,15 +266,13 @@ ${formData.message}
 
     tracking-[-1.5px]
   "
->
-  Build Faster. Build
-  <br />
+                                >
+                                    Build Smarter & Faster with End-to-End  <br />
 
-  <span className="text-[#E40015]">
-    Stronger
-  </span>
-  . Build Smarter.
-</h1>
+                                    <span className="text-[#E40015]">
+                                        PEB Construction  </span>
+
+                                </h1>
 
                                 {/* SUBHEADING */}
                                 <h2
@@ -311,18 +282,17 @@ ${formData.message}
                     max-w-[760px]
 
                     font-manrope
-                    font-bold
                     text-white
 
-                    text-[24px]
-                    leading-[36px]
+                    text-[17px]
+                    leading-[22px]
 
-                    lg:text-[20px]
-                    lg:leading-[4px]
+                    lg:text-[19px]
+                    lg:leading-[23px]
                   "
                                 >
-                                    PEB Company in Chennai for Fast-Track Industrial Construction
-                                </h2>
+                                    Complete PEB solutions for warehouses, factories, industrial sheds, and 
+                                    turnkey construction projects delivered with speed, quality, and structural reliability.                                </h2>
 
                                 {/* FEATURES */}
                                 <div className="mt-8 space-y-1 max-w-[760px]">

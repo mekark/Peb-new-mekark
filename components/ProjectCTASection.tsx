@@ -86,31 +86,7 @@ export default function ProjectCTASection() {
 
     if (!validateForm()) return;
 
-    const whatsappMessage = `
-Hello Mekark,
 
-I would like to enquire about my project.
-
-Name: ${formData.name}
-Company: ${formData.company}
-Phone: ${formData.phone}
-Email: ${formData.email}
-Location: ${formData.location}
-Industry Type: ${formData.industry}
-Sq.ft Requirement: ${formData.sqft}
-
-Requirement Details:
-${formData.details}
-    `;
-
-    const encodedMessage =
-      encodeURIComponent(
-        whatsappMessage
-      );
-
-    const whatsappURL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
-
-    window.open(whatsappURL, "_blank");
 
     setTimeout(() => {
       window.location.href =
