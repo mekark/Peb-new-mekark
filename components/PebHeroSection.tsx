@@ -19,7 +19,7 @@ const sqftOptions = [
     "50,000+ Sq.ft",
 ];
 
-const THANK_YOU_URL = "https://mekark.com/thank-you";
+const THANK_YOU_URL = "https://peb.mekark.com/thank-you";
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 

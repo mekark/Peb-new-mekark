@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Manrope, Inter, Space_Grotesk } from "next/font/google";
+import FloatingWhatsApp from "@/components/Whatsapp";
 import "./globals.css";
 
 const manrope = Manrope({
@@ -49,6 +50,7 @@ export default function RootLayout({
       >
         {children}
       </body>
+      <FloatingWhatsApp />
     </html>
   );
 }
