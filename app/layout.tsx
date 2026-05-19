@@ -18,6 +18,9 @@ const spaceGrotesk = Space_Grotesk({
   weight: ["400", "500", "700"],
 });
 
+
+
+
 export const metadata: Metadata = {
   title:
     "PEB Manufacturer in Chennai - Mekark",
@@ -25,6 +28,9 @@ export const metadata: Metadata = {
   description:
     "Leading Pre-Engineered Building Manufacturer in Chennai. Turnkey PEB & EPC solutions – from design to execution with on-time delivery.",
 };
+
+
+
 
 export default function RootLayout({
   children,
