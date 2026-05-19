@@ -1,0 +1,318 @@
+"use client";
+
+import { motion } from "framer-motion";
+import { ArrowUpRight } from "lucide-react";
+
+const reasons = [
+    {
+        id: "01",
+        title: "We Manufacture. Not Outsource.",
+        desc: "Every structural component is designed and fabricated in our own 6L sq.ft. plant. Full quality ownership. No supply chain surprises.",
+    },
+    {
+        id: "02",
+        title: "Free Engineering Consultation",
+        desc: "Get a free optimized layout plan tailored to your site and requirements — before you commit.",
+    },
+    {
+        id: "03",
+        title: "Fixed Price. On-Time Commitment.",
+        desc: "Transparent pricing, fixed timelines, and on-time delivery — with no hidden costs or excuses.",
+    },
+    {
+        id: "04",
+        title: "450+ Projects Trust Us",
+        desc: "Trusted by TATA, L&T, and 450+ industrial clients — your project is in proven hands.",
+    },
+];
+
+export default function WhyMekark() {
+    return (
+        <section className="bg-[#E31E24] py-16 sm:py-20 lg:py-28 overflow-hidden">
+            <div className="mx-auto max-w-[1500px] px-5 sm:px-8 lg:px-16">
+                <div
+                    className="
+            grid
+            grid-cols-1
+            gap-16
+
+            lg:grid-cols-[1fr_720px]
+            lg:gap-24
+          "
+                >
+                    {/* LEFT SIDE */}
+                    <motion.div
+                        initial={{ opacity: 0, x: -60 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.7 }}
+                        viewport={{ once: true }}
+                    >
+                        {/* LABEL */}
+                        <p
+                            className="
+                font-space-grotesk
+                text-[12px]
+                font-bold
+                uppercase
+                tracking-[1.2px]
+                text-[#FFD7D7]
+              "
+                        >
+                            Why Give Your Project to Mekark?
+                        </p>
+
+                        {/* HEADING */}
+                        <h2
+                            className="
+                mt-7
+                max-w-[860px]
+                font-manrope
+                text-[42px]
+                font-bold
+                leading-[46px]
+                tracking-[-1.2px]
+                text-white
+
+                sm:text-[54px]
+                sm:leading-[58px]
+
+                lg:text-[57px]
+                lg:leading-[72px]
+                lg:tracking-[-1.5px]
+              "
+                        >
+                            Your Project Deserves a Manufacturer,
+                            <br />
+                            <span className="text-black">
+                                Not a Middleman.
+                            </span>
+                        </h2>
+
+                        {/* DESCRIPTION */}
+                        <div
+                            className="
+                mt-10
+                max-w-[620px]
+                space-y-8
+              "
+                        >
+                            <p
+                                className="
+                  font-inter
+                  text-[17px]
+                  font-normal
+                  leading-[32px]
+                  text-white/95
+                "
+                            >
+                                Most PEB "contractors" outsource fabrication, design, or
+                                erection to third parties — leaving you exposed to quality
+                                gaps, delays, and cost overruns. Mekark is different.
+                                Every bolt is manufactured in our own plant. Every drawing
+                                is made by our own engineers. Every structure is erected by
+                                our own certified team.
+                            </p>
+
+                            <p
+                                className="
+                  font-inter
+                  text-[17px]
+                  font-normal
+                  leading-[32px]
+                  text-white/95
+                "
+                            >
+                                When you share your project with Mekark, you get a
+                                committed manufacturing partner accountable from ground
+                                to gable — with 450+ completed projects as proof.
+                            </p>
+                        </div>
+
+                        {/* BUTTON */}
+                        <motion.a
+                            href="#quote-form"
+                            whileHover={{
+                                scale: 1.03,
+                                y: -2,
+                            }}
+                            whileTap={{
+                                scale: 0.98,
+                            }}
+                            transition={{
+                                duration: 0.25,
+                            }}
+                            className="
+    group
+    mt-10
+
+    inline-flex
+    items-center
+    gap-4
+
+    rounded-[8px]
+
+    bg-white
+
+    px-6
+    py-4
+
+    font-manrope
+    text-[18px]
+    font-bold
+
+    text-[#CC000A]
+
+    transition-all
+    duration-300
+
+    hover:bg-[#FFF4F4]
+  "
+                        >
+                            Start an export enquiry
+
+                            <ArrowUpRight
+                                className="
+      h-5
+      w-5
+
+      transition-transform
+      duration-300
+
+      group-hover:translate-x-1
+      group-hover:-translate-y-1
+    "
+                            />
+                        </motion.a>
+                    </motion.div>
+
+                    {/* RIGHT SIDE */}
+                    <motion.div
+                        initial={{ opacity: 0, x: 80 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{
+                            duration: 0.9,
+                            ease: "easeOut",
+                        }}
+                        viewport={{ once: true }}
+                        className="
+    flex
+    flex-col
+
+    lg:pl-35
+  "
+                    >
+                        {reasons.map((item, index) => (
+                            <motion.div
+                                key={index}
+                                initial={{ opacity: 0, x: 100 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                transition={{
+                                    duration: 0.8,
+                                    delay: index * 0.12,
+                                    ease: "easeOut",
+                                }}
+                                viewport={{ once: true }}
+                                whileHover={{
+                                    x: 10,
+                                }}
+                                className="
+        group
+        relative
+        py-7
+      "
+                            >
+                                {/* LINE */}
+                                {index !== 0 && (
+                                    <div
+                                        className="
+            absolute
+            left-0
+            right-0
+            top-0
+            h-[1px]
+            bg-white/20
+          "
+                                    />
+                                )}
+
+                                <div
+                                    className="
+          flex
+          flex-col
+          gap-5
+
+          sm:flex-row
+          sm:items-start
+        "
+                                >
+                                    {/* NUMBER */}
+                                    <motion.div
+                                        initial={{ opacity: 0, scale: 0.8 }}
+                                        whileInView={{ opacity: 1, scale: 1 }}
+                                        transition={{
+                                            duration: 0.6,
+                                            delay: 0.2 + index * 0.1,
+                                        }}
+                                        viewport={{ once: true }}
+                                        className="
+            font-space-grotesk
+            text-[54px]
+            font-bold
+            leading-none
+            text-white/15
+
+            lg:text-[64px]
+          "
+                                    >
+                                        {item.id}
+                                    </motion.div>
+
+                                    {/* CONTENT */}
+                                    <div className="flex-1 pt-1">
+                                        <h3
+                                            className="
+              font-manrope
+              text-[28px]
+              font-bold
+              leading-[1.2]
+              text-white
+
+              transition-all
+              duration-300
+
+              group-hover:translate-x-1
+
+              sm:text-[32px]
+            "
+                                        >
+                                            {item.title}
+                                        </h3>
+
+                                        <p
+                                            className="
+              mt-3
+              max-w-[520px]
+              font-manrope
+              text-[16px]
+              font-medium
+              leading-[28px]
+              text-white/85
+
+              transition-all
+              duration-300
+
+              group-hover:translate-x-1
+            "
+                                        >
+                                            {item.desc}
+                                        </p>
+                                    </div>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </motion.div>
+                </div>
+            </div>
+        </section>
+    );
+}

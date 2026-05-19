@@ -1,0 +1,871 @@
+"use client";
+
+import Image from "next/image";
+import { motion } from "framer-motion";
+import {
+  ArrowUpRight,
+  MapPin,
+  Phone,
+} from "lucide-react";
+import { useState } from "react";
+
+const THANK_YOU_URL = "/thank-you";
+
+const WHATSAPP_NUMBER = "919790924754";
+
+const PHONE_NUMBER = "+919790924754";
+
+export default function ProjectCTASection() {
+  const [formData, setFormData] = useState({
+    name: "",
+    company: "",
+    phone: "",
+    email: "",
+    location: "",
+    industry: "",
+    sqft: "",
+    details: "",
+  });
+
+  const [errors, setErrors] = useState<any>({});
+
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement
+    >
+  ) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+
+    setErrors({
+      ...errors,
+      [e.target.name]: "",
+    });
+  };
+
+  const validateForm = () => {
+    let newErrors: any = {};
+
+    if (!formData.name.trim()) {
+      newErrors.name = "Name is required";
+    }
+
+    if (!formData.phone.trim()) {
+      newErrors.phone =
+        "Phone number is required";
+    } else if (
+      !/^[0-9]{10}$/.test(formData.phone)
+    ) {
+      newErrors.phone =
+        "Enter valid 10 digit number";
+    }
+
+    if (!formData.industry) {
+      newErrors.industry =
+        "Select industry type";
+    }
+
+    if (!formData.sqft) {
+      newErrors.sqft =
+        "Select sq.ft requirement";
+    }
+
+    setErrors(newErrors);
+
+    return (
+      Object.keys(newErrors).length === 0
+    );
+  };
+
+  const handleSubmit = (
+    e: React.FormEvent
+  ) => {
+    e.preventDefault();
+
+    if (!validateForm()) return;
+
+    const whatsappMessage = `
+Hello Mekark,
+
+I would like to enquire about my project.
+
+Name: ${formData.name}
+Company: ${formData.company}
+Phone: ${formData.phone}
+Email: ${formData.email}
+Location: ${formData.location}
+Industry Type: ${formData.industry}
+Sq.ft Requirement: ${formData.sqft}
+
+Requirement Details:
+${formData.details}
+    `;
+
+    const encodedMessage =
+      encodeURIComponent(
+        whatsappMessage
+      );
+
+    const whatsappURL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
+
+    window.open(whatsappURL, "_blank");
+
+    setTimeout(() => {
+      window.location.href =
+        THANK_YOU_URL;
+    }, 1200);
+  };
+
+  return (
+    <section className="relative overflow-hidden">
+      {/* Background */}
+      <div className="absolute inset-0">
+        <Image
+          src="/Images/footerbg.png"
+          alt="Industrial Background"
+          fill
+          priority
+          className="object-cover"
+        />
+
+        <div className="absolute inset-0 bg-[#020817]/80" />
+
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(228,0,21,0.08)_0%,rgba(228,0,21,0.30)_100%)]" />
+      </div>
+
+      {/* Content */}
+      <div className="relative z-10 max-w-[1400px] mx-auto px-5 sm:px-8 lg:px-14 py-16 lg:py-24">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_520px] gap-14 items-center">
+          {/* LEFT */}
+          <div className="max-w-[680px]">
+            {/* Badge */}
+            <motion.div
+              initial={{
+                opacity: 0,
+                y: 20,
+              }}
+              whileInView={{
+                opacity: 1,
+                y: 0,
+              }}
+              transition={{
+                duration: 0.5,
+              }}
+              viewport={{ once: true }}
+              className="
+                inline-flex
+                items-center
+                justify-center
+                px-[14px]
+                py-[6px]
+                rounded-full
+                border
+                border-[#FCD5D0]
+                bg-[#FEEAE7]
+                mb-8
+              "
+            >
+              <span className="text-[13px] font-semibold leading-[19.5px] text-[#CC000A]">
+                Start Your Project
+              </span>
+            </motion.div>
+
+            {/* Heading */}
+            <motion.h2
+              initial={{
+                opacity: 0,
+                y: 30,
+              }}
+              whileInView={{
+                opacity: 1,
+                y: 0,
+              }}
+              transition={{
+                duration: 0.7,
+              }}
+              viewport={{ once: true }}
+              className="
+                text-white
+                text-[42px]
+                sm:text-[54px]
+                lg:text-[64px]
+                leading-[1]
+                tracking-[-2px]
+                font-bold
+                max-w-[720px]
+              "
+            >
+              Let’s build it{" "}
+              <span className="text-[#E40015]">
+                faster,
+                <br />
+                smarter, better.
+              </span>
+            </motion.h2>
+
+            {/* Description */}
+            <motion.p
+              initial={{
+                opacity: 0,
+                y: 30,
+              }}
+              whileInView={{
+                opacity: 1,
+                y: 0,
+              }}
+              transition={{
+                duration: 0.8,
+              }}
+              viewport={{ once: true }}
+              className="
+                mt-8
+                text-white/70
+                text-[17px]
+                sm:text-[18px]
+                leading-[30px]
+                font-medium
+                max-w-[520px]
+              "
+            >
+              Share your requirement —
+              our engineering team
+              responds with a layout,
+              BOQ and timeline.
+            </motion.p>
+
+            {/* Cards */}
+            <div className="mt-10 space-y-5">
+              {/* CALL */}
+              <motion.a
+                href={`tel:${PHONE_NUMBER}`}
+                initial={{
+                  opacity: 0,
+                  x: -40,
+                }}
+                whileInView={{
+                  opacity: 1,
+                  x: 0,
+                }}
+                transition={{
+                  duration: 0.7,
+                }}
+                viewport={{ once: true }}
+                whileHover={{
+                  scale: 1.02,
+                }}
+                className="
+                  group
+                  w-full
+                  max-w-[520px]
+                  min-h-[90px]
+                  rounded-[22px]
+                  border
+                  border-black/5
+                  bg-[#212121]
+                  px-5
+                  py-5
+                  flex
+                  items-center
+                  justify-between
+                  transition-all
+                  duration-300
+                "
+              >
+                <div className="flex items-center gap-4">
+                  <div
+                    className="
+                      w-12
+                      h-12
+                      rounded-[18px]
+                      bg-[#CC000A]
+                      flex
+                      items-center
+                      justify-center
+                    "
+                  >
+                    <Phone
+                      className="text-white"
+                      size={22}
+                    />
+                  </div>
+
+                  <div>
+                    <p
+                      className="
+                        text-[#A9A9A9]
+                        text-[12px]
+                        font-bold
+                        uppercase
+                        tracking-[0.6px]
+                      "
+                    >
+                      Call Now
+                    </p>
+
+                    <h4
+                      className="
+                        text-white
+                        text-[18px]
+                        font-bold
+                        leading-[24px]
+                        tracking-[-0.4px]
+                        mt-1
+                      "
+                    >
+                      +91 97909 24754
+                    </h4>
+                  </div>
+                </div>
+
+                <ArrowUpRight
+                  className="
+                    text-white/60
+                    group-hover:text-white
+                  "
+                  size={22}
+                />
+              </motion.a>
+
+              {/* WHATSAPP */}
+              <motion.a
+                href={`https://wa.me/${WHATSAPP_NUMBER}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                initial={{
+                  opacity: 0,
+                  x: -40,
+                }}
+                whileInView={{
+                  opacity: 1,
+                  x: 0,
+                }}
+                transition={{
+                  duration: 0.8,
+                }}
+                viewport={{ once: true }}
+                whileHover={{
+                  scale: 1.02,
+                }}
+                className="
+                  group
+                  w-full
+                  max-w-[520px]
+                  min-h-[90px]
+                  rounded-[22px]
+                  border
+                  border-black/5
+                  bg-[#212121]
+                  px-5
+                  py-5
+                  flex
+                  items-center
+                  justify-between
+                  transition-all
+                  duration-300
+                "
+              >
+                <div className="flex items-center gap-4">
+                  <div
+                    className="
+                      w-12
+                      h-12
+                      rounded-[18px]
+                      bg-[#CC000A]
+                      flex
+                      items-center
+                      justify-center
+                    "
+                  >
+                    <Image
+                      src="/Images/ws.png"
+                      alt="WhatsApp"
+                      width={26}
+                      height={26}
+                    />
+                  </div>
+
+                  <h4
+                    className="
+                      text-white
+                      text-[18px]
+                      font-bold
+                    "
+                  >
+                    WhatsApp Us Now
+                  </h4>
+                </div>
+
+                <ArrowUpRight
+                  className="
+                    text-white/60
+                    group-hover:text-white
+                  "
+                  size={22}
+                />
+              </motion.a>
+            </div>
+
+            {/* ADDRESS */}
+            <motion.div
+              initial={{
+                opacity: 0,
+                y: 40,
+              }}
+              whileInView={{
+                opacity: 1,
+                y: 0,
+              }}
+              transition={{
+                duration: 1,
+              }}
+              viewport={{ once: true }}
+              className="
+                mt-10
+                flex
+                items-start
+                gap-4
+                max-w-[560px]
+              "
+            >
+              <MapPin
+                className="text-[#E40015] mt-1"
+                size={30}
+              />
+
+              <p
+                className="
+                  text-white
+                  text-[16px]
+                  leading-[24px]
+                  font-medium
+                "
+              >
+                Mekark Polyhouse Tower,
+                5th Floor, Anna Salai,
+                Little Mount, Guindy,
+                Chennai - 600032
+              </p>
+            </motion.div>
+          </div>
+
+          {/* RIGHT FORM */}
+          <motion.div
+            initial={{
+              opacity: 0,
+              x: 60,
+            }}
+            whileInView={{
+              opacity: 1,
+              x: 0,
+            }}
+            transition={{
+              duration: 0.9,
+            }}
+            viewport={{ once: true }}
+            className="
+              bg-[#F7F7F7]
+              rounded-[30px]
+              p-6
+              sm:p-8
+              lg:p-10
+              shadow-[0_20px_80px_rgba(0,0,0,0.25)]
+            "
+          >
+            {/* Heading */}
+            <div className="text-center">
+              <h3
+                className="
+                  text-[#121212]
+                  text-[28px]
+                  font-bold
+                "
+              >
+                Request Your Project
+                Blueprint
+              </h3>
+
+              <p
+                className="
+                  text-[#8B8B8B]
+                  text-[14px]
+                  mt-2
+                "
+              >
+                Get a custom layout,
+                cost range & 120-day
+                timeline
+              </p>
+            </div>
+
+            {/* FORM */}
+            <form
+              onSubmit={handleSubmit}
+              id="quote-form"
+
+              className="mt-8 space-y-4"
+            >
+              {/* NAME */}
+              <div>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  placeholder="Enter Your Full Name*"
+                  className="
+                    w-full
+                    h-[54px]
+                    rounded-[10px]
+                    border
+                    border-[#E5E5E5]
+                    bg-[#ECECEC]
+                    px-4
+                    text-[15px]
+                    font-medium
+                    text-black
+                    placeholder:text-black/55
+                    caret-black
+                    outline-none
+                    focus:border-[#D90916]
+                    focus:bg-white
+                    transition-all
+                    duration-300
+                  "
+                />
+
+                {errors.name && (
+                  <p className="text-red-500 text-sm mt-2">
+                    {errors.name}
+                  </p>
+                )}
+              </div>
+
+              {/* COMPANY */}
+              <input
+                type="text"
+                name="company"
+                value={formData.company}
+                onChange={handleChange}
+                placeholder="Enter Company Name"
+                className="
+                  w-full
+                  h-[54px]
+                  rounded-[10px]
+                  border
+                  border-[#E5E5E5]
+                  bg-[#ECECEC]
+                  px-4
+                  text-[15px]
+                  font-medium
+                  text-black
+                  placeholder:text-black/55
+                  caret-black
+                  outline-none
+                  focus:border-[#D90916]
+                  focus:bg-white
+                  transition-all
+                  duration-300
+                "
+              />
+
+              {/* GRID */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {/* PHONE */}
+                <div>
+                  <input
+                    type="text"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    placeholder="Enter Mobile Number*"
+                    className="
+                      w-full
+                      h-[54px]
+                      rounded-[10px]
+                      border
+                      border-[#E5E5E5]
+                      bg-[#ECECEC]
+                      px-4
+                      text-[15px]
+                      font-medium
+                      text-black
+                      placeholder:text-black/55
+                      caret-black
+                      outline-none
+                      focus:border-[#D90916]
+                      focus:bg-white
+                      transition-all
+                      duration-300
+                    "
+                  />
+
+                  {errors.phone && (
+                    <p className="text-red-500 text-sm mt-2">
+                      {errors.phone}
+                    </p>
+                  )}
+                </div>
+
+                {/* EMAIL */}
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="Enter Email Address"
+                  className="
+                    w-full
+                    h-[54px]
+                    rounded-[10px]
+                    border
+                    border-[#E5E5E5]
+                    bg-[#ECECEC]
+                    px-4
+                    text-[15px]
+                    font-medium
+                    text-black
+                    placeholder:text-black/55
+                    caret-black
+                    outline-none
+                    focus:border-[#D90916]
+                    focus:bg-white
+                    transition-all
+                    duration-300
+                  "
+                />
+
+                {/* INDUSTRY */}
+                <div>
+                  <select
+                    name="industry"
+                    value={
+                      formData.industry
+                    }
+                    onChange={
+                      handleChange
+                    }
+                    className="
+                      w-full
+                      h-[54px]
+                      rounded-[10px]
+                      border
+                      border-[#E5E5E5]
+                      bg-[#ECECEC]
+                      px-4
+                      text-[15px]
+                      font-medium
+                      text-black
+                      caret-black
+                      outline-none
+                      focus:border-[#D90916]
+                      focus:bg-white
+                      transition-all
+                      duration-300
+                    "
+                  >
+                    <option value="">
+                      Select Industry
+                      Type*
+                    </option>
+
+                    {[
+                      "Warehouse & Logistics",
+                      "Factories, Industries & Plants",
+                      "Manufacturing",
+                      "Multi Storey Steel",
+                      "Cold Storage",
+                    ].map(
+                      (industry) => (
+                        <option
+                          key={
+                            industry
+                          }
+                          value={
+                            industry
+                          }
+                        >
+                          {
+                            industry
+                          }
+                        </option>
+                      )
+                    )}
+                  </select>
+
+                  {errors.industry && (
+                    <p className="text-red-500 text-sm mt-2">
+                      {
+                        errors.industry
+                      }
+                    </p>
+                  )}
+                </div>
+
+                {/* SQFT */}
+                <div>
+                  <select
+                    name="sqft"
+                    value={formData.sqft}
+                    onChange={
+                      handleChange
+                    }
+                    className="
+                      w-full
+                      h-[54px]
+                      rounded-[10px]
+                      border
+                      border-[#E5E5E5]
+                      bg-[#ECECEC]
+                      px-4
+                      text-[15px]
+                      font-medium
+                      text-black
+                      caret-black
+                      outline-none
+                      focus:border-[#D90916]
+                      focus:bg-white
+                      transition-all
+                      duration-300
+                    "
+                  >
+                    <option value="">
+                      Select Sq.ft
+                      Requirement*
+                    </option>
+
+                    {[
+                      "10,000 - 20,000 Sq.ft",
+                      "20,000 - 30,000 Sq.ft",
+                      "30,000 - 50,000 Sq.ft",
+                      "50,000+ Sq.ft",
+                    ].map(
+                      (sqft) => (
+                        <option
+                          key={
+                            sqft
+                          }
+                          value={
+                            sqft
+                          }
+                        >
+                          {sqft}
+                        </option>
+                      )
+                    )}
+                  </select>
+
+                  {errors.sqft && (
+                    <p className="text-red-500 text-sm mt-2">
+                      {errors.sqft}
+                    </p>
+                  )}
+                </div>
+
+                {/* LOCATION */}
+                <input
+                  type="text"
+                  name="location"
+                  value={
+                    formData.location
+                  }
+                  onChange={
+                    handleChange
+                  }
+                  placeholder="Enter Project Location"
+                  className="
+                    w-full
+                    h-[54px]
+                    rounded-[10px]
+                    border
+                    border-[#E5E5E5]
+                    bg-[#ECECEC]
+                    px-4
+                    text-[15px]
+                    font-medium
+                    text-black
+                    placeholder:text-black/55
+                    caret-black
+                    outline-none
+                    focus:border-[#D90916]
+                    focus:bg-white
+                    transition-all
+                    duration-300
+                  "
+                />
+
+                {/* DETAILS */}
+                <input
+                  type="text"
+                  name="details"
+                  value={
+                    formData.details
+                  }
+                  onChange={
+                    handleChange
+                  }
+                  placeholder="Enter Requirement Details"
+                  className="
+                    w-full
+                    h-[54px]
+                    rounded-[10px]
+                    border
+                    border-[#E5E5E5]
+                    bg-[#ECECEC]
+                    px-4
+                    text-[15px]
+                    font-medium
+                    text-black
+                    placeholder:text-black/55
+                    caret-black
+                    outline-none
+                    focus:border-[#D90916]
+                    focus:bg-white
+                    transition-all
+                    duration-300
+                  "
+                />
+              </div>
+
+              {/* BUTTON */}
+              <button
+                type="submit"
+                className="
+                  mt-3
+                  w-full
+                  h-[58px]
+                  rounded-[12px]
+                  bg-[#D90916]
+                  text-white
+                  text-[16px]
+                  font-bold
+                  shadow-[0_10px_30px_rgba(217,9,22,0.35)]
+                  transition-all
+                  duration-300
+                  hover:scale-[1.01]
+                "
+              >
+                Get My Free Quote →
+              </button>
+
+              <p
+                className="
+                  text-center
+                  text-[#8B8B8B]
+                  text-[12px]
+                  mt-4
+                "
+              >
+                100% Transparent
+                Consultation with
+                single point project
+                support
+              </p>
+            </form>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+}

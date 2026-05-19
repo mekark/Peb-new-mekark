@@ -1,0 +1,343 @@
+"use client";
+
+import Image from "next/image";
+import { motion } from "framer-motion";
+import { ArrowRight } from "lucide-react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay } from "swiper/modules";
+
+import "swiper/css";
+
+const factoryImages = [
+    "/Images/new/i1.png",
+    "/Images/new/i2.png",
+    "/Images/new/i3.png",
+    "/Images/new/i4.png",
+    "/Images/new/i5.png",
+    "/Images/new/i6.png",];
+
+export default function ManufacturingHub() {
+    return (
+        <section className="bg-[#F5F5F5] py-16 sm:py-20 lg:py-28 overflow-hidden">
+            <div className="mx-auto max-w-[1450px] px-5 sm:px-8 lg:px-10">
+                <div
+                    className="
+            grid
+            grid-cols-1
+            gap-14
+
+            lg:grid-cols-[560px_1fr]
+            lg:items-center
+          "
+                >
+                    {/* LEFT SIDE */}
+                    <motion.div
+                        initial={{ opacity: 0, x: -80 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.8 }}
+                        viewport={{ once: true }}
+                        className="relative"
+                    >
+                        <div
+                            className="
+      relative
+      overflow-hidden
+      rounded-[8px]
+    "
+                        >
+                            {/* CAROUSEL */}
+                            <Swiper
+                                modules={[Autoplay]}
+                                autoplay={{
+                                    delay: 5000, // HOLD IMAGE BEFORE NEXT
+                                    disableOnInteraction: false,
+                                }}
+                                speed={2200} // SLOW TRANSITION
+                                loop
+                                allowTouchMove={true}
+                                className="h-full w-full"
+                            >
+                                {factoryImages.map((img, index) => (
+                                    <SwiperSlide key={index}>
+                                        {/* FIXED HEIGHT */}
+                                        <div
+                                            className="
+              relative
+
+              h-[520px]
+
+              sm:h-[650px]
+
+              lg:h-[820px]
+            "
+                                        >
+                                            <Image
+                                                src={img}
+                                                alt={`Factory ${index + 1}`}
+                                                fill
+
+                                                /* IMAGE FILLS FULL CARD */
+                                                className="
+                object-cover
+              "
+
+                                                priority
+                                            />
+
+                                            {/* OVERLAY */}
+                                            <div className="absolute inset-0 bg-black/10" />
+                                        </div>
+                                    </SwiperSlide>
+                                ))}
+                            </Swiper>
+
+                            {/* FLOATING BOX */}
+                            <motion.div
+                                initial={{ opacity: 0, y: 30 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.3, duration: 0.7 }}
+                                viewport={{ once: true }}
+                                className="
+        absolute
+        bottom-5
+        left-5
+        right-5
+        z-20
+
+        rounded-[6px]
+        border
+        border-[#E8E3E4]
+        bg-white/90
+        p-5
+        backdrop-blur-[8px]
+
+        sm:right-auto
+        sm:w-[497px]
+      "
+                            >
+                                <p
+                                    className="
+          font-space-grotesk
+          text-[11px]
+          uppercase
+          tracking-[1.1px]
+          text-[#E50818]
+        "
+                                >
+                                    Inside the Factory
+                                </p>
+
+                                <h4
+                                    className="
+          mt-1
+          font-manrope
+          text-[15px]
+          font-bold
+          leading-[22px]
+          text-black
+        "
+                                >
+                                    6,00,000 Sq. Ft. Integrated Hub
+                                </h4>
+                            </motion.div>
+                        </div>
+                    </motion.div>
+
+                    {/* RIGHT SIDE */}
+                    <motion.div
+                        initial={{ opacity: 0, x: 80 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.8 }}
+                        viewport={{ once: true }}
+                    >
+                        {/* TOP LABEL */}
+                        <p
+                            className="
+                font-space-grotesk
+                text-[11px]
+                uppercase
+                tracking-[1.4px]
+                text-[#E50818]
+              "
+                        >
+                            Manufacturing Excellence
+                        </p>
+
+                        {/* HEADING */}
+                        <h2
+                            className="
+                mt-4
+                max-w-[760px]
+                font-manrope
+                text-[36px]
+                font-bold
+                leading-[42px]
+                tracking-[-1px]
+                text-black
+
+                sm:text-[44px]
+                sm:leading-[50px]
+
+                lg:text-[55px]
+                lg:leading-[56.11px]
+                lg:tracking-[-1.02px]
+              "
+                        >
+                            Tamil Nadu’s High-Capacity{" "}
+                            <span className="text-[#E50818]">
+                                PEB Manufacturing Hub
+                            </span>
+                        </h2>
+
+                        {/* SUB HEADING */}
+                        <h3
+                            className="
+                mt-8
+                font-manrope
+                text-[20px]
+                font-bold
+                leading-[28px]
+                tracking-[-0.41px]
+                text-[#040303]
+              "
+                        >
+                            Inside Mekark's Manufacturing Excellence
+                        </h3>
+
+                        {/* PARAGRAPHS */}
+                        <div className="mt-5 space-y-5">
+                            <p
+                                className="
+                  text-[16px]
+                  leading-[28px]
+                  text-[#322C2E]
+                "
+                            >
+                                India's industrial leaders trust Mekark because we don't just
+                                design—we manufacture at scale with precision and control.
+                            </p>
+
+                            <p
+                                className="
+                  text-[16px]
+                  leading-[28px]
+                  text-[#322C2E]
+                "
+                            >
+                                Operating from a 6,00,000 sq. ft. fully integrated facility,
+                                Mekark stands among Tamil Nadu’s highest production capacity PEB
+                                manufacturers, delivering up to 3000 tons of steel structures
+                                with speed, consistency, and engineering accuracy.
+                            </p>
+
+                            <p
+                                className="
+                  text-[16px]
+                  leading-[28px]
+                  text-[#322C2E]
+                "
+                            >
+                                Our fully automated factory, powered by the latest advanced
+                                machinery, ensures every component is fabricated with exact
+                                specifications—reducing delays, eliminating inconsistencies, and
+                                accelerating project timelines.
+                            </p>
+
+                            <p
+                                className="
+                  text-[16px]
+                  leading-[28px]
+                  text-[#322C2E]
+                "
+                            >
+                                Backed by ISO-certified processes and a 300+ strong
+                                white-collar engineering team, we bring together technology,
+                                scale, and expertise to deliver structures that are not only
+                                built fast—but built right.
+                            </p>
+                        </div>
+
+                        {/* RED CTA BOX */}
+                        <motion.div
+                            whileHover={{
+                                y: -4,
+                            }}
+                            transition={{ duration: 0.3 }}
+                            className="
+    mt-8
+    max-w-[560px]
+    rounded-[8px]
+    bg-[#E50818]
+
+    px-5
+    py-5
+
+    sm:px-6
+    sm:py-6
+  "
+                        >
+                            <h4
+                                className="
+      font-manrope
+      text-[22px]
+      font-bold
+      leading-[1.25]
+      text-white
+
+      sm:text-[24px]
+    "
+                            >
+                                Build Faster. Scale Smarter. Perform Better.
+                            </h4>
+
+                            <p
+                                className="
+      mt-3
+      max-w-[430px]
+      text-[14px]
+      leading-[24px]
+      text-white/90
+
+      sm:text-[15px]
+    "
+                            >
+                                Partner with a top pre engineering building company delivering
+                                turnkey excellence across India.
+                            </p>
+
+                            {/* BUTTON */}
+                            <motion.button
+                                whileHover={{
+                                    x: 4,
+                                }}
+                                whileTap={{
+                                    scale: 0.97,
+                                }}
+                                className="
+      mt-5
+      inline-flex
+      items-center
+      gap-2
+      rounded-[5px]
+      bg-[#EEEEEE]
+
+      px-5
+      py-2.5
+
+      text-[13px]
+      font-semibold
+      text-black
+      transition-all
+      duration-300
+    "
+                            >
+                                Contact Us
+                                <ArrowRight className="h-4 w-4" />
+                            </motion.button>
+                        </motion.div>
+                    </motion.div>
+                </div>
+            </div>
+        </section>
+    );
+}
