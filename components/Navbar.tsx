@@ -56,8 +56,10 @@ export default function Navbar() {
           sm:px-6
           lg:px-10
 
-          pt-5
-        "
+pt-2
+sm:pt-3
+
+lg:pt-5        "
             >
                 {/* NAVBAR */}
                 <motion.nav

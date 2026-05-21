@@ -11,8 +11,7 @@ export default function FloatingWhatsApp() {
   const href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
 
   return (
-    <div className="fixed bottom-24 right-5 z-[70] flex flex-col gap-3 sm:bottom-28 sm:right-6">
-      {" "}
+<div className="fixed bottom-4 right-4 z-[70] flex flex-col gap-3 sm:bottom-6 sm:right-6">      {" "}
       <a
         href={`tel:${PHONE_NUMBER}`}
         aria-label="Call Mekark"

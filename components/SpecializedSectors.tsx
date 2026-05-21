@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { ArrowUpRight, Building2 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const sectors = [
     {
@@ -90,16 +91,27 @@ export default function SpecializedSectors() {
             className="relative overflow-hidden bg-black py-20 lg:py-28">
             {/* Dynamic Background */}
             <div className="absolute inset-0 z-0">
-                <Image
-                    src={sectors[activeSector].bg}
-                    alt="sector bg"
-                    fill
-                    priority
-                    className="object-cover transition-all duration-700 ease-in-out"
-                />
+                <AnimatePresence mode="wait">
+                    <motion.div
+                        key={sectors[activeSector].bg}
+                        initial={{ opacity: 0, scale: 1.08 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.7 }}
+                        className="absolute inset-0"
+                    >
+                        <Image
+                            src={sectors[activeSector].bg}
+                            alt="sector bg"
+                            fill
+                            priority
+                            className="object-cover"
+                        />
+                    </motion.div>
+                </AnimatePresence>
 
                 {/* Overlay */}
-                <div className="absolute inset-0 bg-black/75" />
+                <div className="absolute inset-0 bg-black/70" />
 
                 {/* Gradient */}
                 <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-black/70" />
@@ -253,11 +265,30 @@ export default function SpecializedSectors() {
                             {/* Blur Glow */}
                             <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent" />
 
-                            <div className="relative z-10">
-                                {/* Header */}
-                                <div className="flex items-start gap-4">
-                                    <div
-                                        className="
+                            <AnimatePresence mode="wait">
+                                <motion.div
+                                    key={activeSector}
+                                    initial={{
+                                        opacity: 0,
+                                        y: 30,
+                                    }}
+                                    animate={{
+                                        opacity: 1,
+                                        y: 0,
+                                    }}
+                                    exit={{
+                                        opacity: 0,
+                                        y: -20,
+                                    }}
+                                    transition={{
+                                        duration: 0.45,
+                                    }}
+                                    className="relative z-10"
+                                >
+                                    {/* Header */}
+                                    <div className="flex items-start gap-4">
+                                        <div
+                                            className="
                       flex
                       h-[56px]
                       w-[56px]
@@ -266,25 +297,25 @@ export default function SpecializedSectors() {
                       rounded-xl
                       bg-[#FF1F2D]
                     "
-                                    >
-                                        <Building2 className="h-7 w-7 text-white" />
-                                    </div>
+                                        >
+                                            <Building2 className="h-7 w-7 text-white" />
+                                        </div>
 
-                                    <div>
-                                        <p
-                                            className="
+                                        <div>
+                                            <p
+                                                className="
                         text-[10px]
                         font-bold
                         uppercase
                         tracking-[2px]
                         text-[#FF2D3B]
                       "
-                                        >
-                                            {sectors[activeSector].id} / Sector
-                                        </p>
+                                            >
+                                                {sectors[activeSector].id} / Sector
+                                            </p>
 
-                                        <h3
-                                            className="
+                                            <h3
+                                                className="
                         mt-2
                         text-[28px]
                         font-bold
@@ -292,47 +323,47 @@ export default function SpecializedSectors() {
                         tracking-[-0.6px]
                         text-white
                       "
-                                        >
-                                            {sectors[activeSector].heading}
-                                        </h3>
+                                            >
+                                                {sectors[activeSector].heading}
+                                            </h3>
+                                        </div>
                                     </div>
-                                </div>
 
-                                {/* Description */}
-                                <p
-                                    className="
+                                    {/* Description */}
+                                    <p
+                                        className="
                     mt-6
                     max-w-[720px]
                     text-[18px]
                     leading-[28px]
                     text-white/70
                   "
-                                >
-                                    {sectors[activeSector].desc}
-                                </p>
+                                    >
+                                        {sectors[activeSector].desc}
+                                    </p>
 
-                                {/* Points */}
-                                <div className="mt-8 grid grid-cols-1 gap-y-5 gap-x-10 sm:grid-cols-2">
-                                    {sectors[activeSector].points.map((point, idx) => (
-                                        <div key={idx} className="flex items-start gap-4">
-                                            <div className="mt-1 h-8 w-[2px] bg-white/30" />
+                                    {/* Points */}
+                                    <div className="mt-8 grid grid-cols-1 gap-y-5 gap-x-10 sm:grid-cols-2">
+                                        {sectors[activeSector].points.map((point, idx) => (
+                                            <div key={idx} className="flex items-start gap-4">
+                                                <div className="mt-1 h-8 w-[2px] bg-white/30" />
 
-                                            <p
-                                                className="
+                                                <p
+                                                    className="
                           text-[15px]
                           leading-[24px]
                           text-white/85
                         "
-                                            >
-                                                {point}
-                                            </p>
-                                        </div>
-                                    ))}
-                                </div>
+                                                >
+                                                    {point}
+                                                </p>
+                                            </div>
+                                        ))}
+                                    </div>
 
-                                {/* Footer */}
-                                <p
-                                    className="
+                                    {/* Footer */}
+                                    <p
+                                        className="
                     mt-10
                     border-t
                     border-white/10
@@ -342,11 +373,11 @@ export default function SpecializedSectors() {
                     leading-[24px]
                     text-white/45
                   "
-                                >
-                                    {sectors[activeSector].footer}
-                                </p>
-                            </div>
-                        </div>
+                                    >
+                                        {sectors[activeSector].footer}
+                                    </p>
+                                </motion.div>
+                            </AnimatePresence>                        </div>
                     </div>
                 </div>
             </div>

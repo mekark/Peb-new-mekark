@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { MessageCircle, Phone, Star } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const industryOptions = [
     "Warehouse & Logistics",
@@ -27,6 +27,46 @@ const WHATSAPP_NUMBER = "919790924754";
 const WHATSAPP_MESSAGE =
     "Hello Mekark, I would like to discuss about my warehouse construction project.";
 const PHONE_NUMBER = "9790924754";
+function CountUp({
+    end,
+    suffix = "",
+}: {
+    end: number;
+    suffix?: string;
+}) {
+    const [count, setCount] = useState(0);
+
+    useEffect(() => {
+        let start = 0;
+
+        const duration = 3900;
+
+        const increment = end / (duration / 16);
+
+        const counter = setInterval(() => {
+            start += increment;
+
+            if (start >= end) {
+                setCount(end);
+
+                clearInterval(counter);
+            } else {
+                setCount(Math.floor(start));
+            }
+        }, 16);
+
+        return () => clearInterval(counter);
+    }, [end]);
+
+    return (
+        <>
+            {count}
+            <span className="text-[#E40015]">
+                {suffix}
+            </span>
+        </>
+    );
+}
 
 export default function PebHeroSection() {
     const [formData, setFormData] = useState({
@@ -138,12 +178,19 @@ export default function PebHeroSection() {
                 >
                     <div
                         className="
-              min-h-screen
-              flex
-              items-center
+min-h-screen
 
-              py-14
-              lg:py-10
+flex
+items-start
+lg:items-center
+
+pt-[95px]
+sm:pt-[105px]
+md:pt-[115px]
+lg:pt-[107px]
+
+pb-14
+lg:py-10
             "
                     >
                         {/* GRID */}
@@ -195,7 +242,7 @@ export default function PebHeroSection() {
     mb-5
     sm:mb-6
 
-    lg:mt-[80px]
+    mt-0
 
     max-w-full
   "
@@ -291,7 +338,7 @@ export default function PebHeroSection() {
                     lg:leading-[23px]
                   "
                                 >
-                                    Complete PEB solutions for warehouses, factories, industrial sheds, and 
+                                    Complete PEB solutions for warehouses, factories, industrial sheds, and
                                     turnkey construction projects delivered with speed, quality, and structural reliability.                                </h2>
 
                                 {/* FEATURES */}
@@ -445,7 +492,8 @@ export default function PebHeroSection() {
 
     pt-7
 
-    grid
+hidden
+lg:grid
     grid-cols-2
     sm:grid-cols-4
 
@@ -488,19 +536,15 @@ export default function PebHeroSection() {
         "
                                             >
                                                 {item.number.includes("t") ? (
-                                                    <>
-                                                        {item.number.replace(" t", "")}
-                                                        <span className="text-[#E40015]">
-                                                            t
-                                                        </span>
-                                                    </>
+                                                    <CountUp
+                                                        end={40000}
+                                                        suffix="t"
+                                                    />
                                                 ) : (
-                                                    <>
-                                                        {item.number.replace("+", "")}
-                                                        <span className="text-[#E40015]">
-                                                            +
-                                                        </span>
-                                                    </>
+                                                    <CountUp
+                                                        end={parseInt(item.number)}
+                                                        suffix="+"
+                                                    />
                                                 )}
                                             </h3>
 
@@ -527,7 +571,8 @@ export default function PebHeroSection() {
                                 </div>
 
                                 {/* BUTTONS */}
-                                <div className="mt-10 flex flex-col sm:flex-row gap-5">
+                                <div className="mt-10 hidden
+lg:flex flex-col sm:flex-row gap-5">
                                     <a
                                         href={`https://wa.me/${WHATSAPP_NUMBER}`}
                                         target="_blank"
@@ -565,8 +610,8 @@ export default function PebHeroSection() {
                                     <a
                                         href={`tel:${PHONE_NUMBER}`}
                                         className="
-    flex
-    items-center
+hidden
+lg:flex    items-center
     justify-center
     gap-3
 
@@ -1000,11 +1045,175 @@ export default function PebHeroSection() {
 
                                     </form>
 
+
                                     {/* FOOTER */}
                                     <p className="text-center text-gray-400 text-sm mt-5">
                                         100% Transparent Consultation with single point project
                                         support
                                     </p>
+                                </div>
+                            </div>
+                            {/* MOBILE BUTTONS + STATS */}
+                            <div className="lg:hidden w-full mt-6">
+
+                                {/* MOBILE BUTTONS */}
+                                <div className="flex flex-col gap-4">
+
+                                    <a
+                                        href={`https://wa.me/${WHATSAPP_NUMBER}`}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="
+        w-full
+
+        flex
+        items-center
+        justify-center
+        gap-3
+
+        bg-[#E40015]
+        hover:bg-red-700
+
+        transition-all
+        duration-300
+
+        rounded-2xl
+
+        px-6
+        py-4
+
+        text-white
+        font-bold
+
+        text-[15px]
+
+        shadow-[0_0_45px_rgba(228,0,21,0.35)]
+      "
+                                    >
+                                        <MessageCircle className="w-5 h-5" />
+
+                                        WhatsApp Us
+                                    </a>
+
+                                    <a
+                                        href={`tel:${PHONE_NUMBER}`}
+                                        className="
+        w-full
+
+        flex
+        items-center
+        justify-center
+        gap-3
+
+        border
+        border-white/20
+
+        bg-black/20
+        hover:bg-white/10
+
+        backdrop-blur-md
+
+        transition-all
+        duration-300
+
+        rounded-2xl
+
+        px-6
+        py-4
+
+        text-white
+        font-bold
+
+        text-[15px]
+      "
+                                    >
+                                        <Phone className="w-5 h-5" />
+
+                                        Call Us
+                                    </a>
+                                </div>
+
+                                {/* MOBILE STATS */}
+                                <div
+                                    className="
+      mt-8
+
+      border-t
+      border-white/20
+
+      pt-7
+
+      grid
+      grid-cols-2
+
+      gap-y-8
+      gap-x-6
+    "
+                                >
+                                    {[
+                                        {
+                                            number: "450+",
+                                            label: "Projects",
+                                        },
+                                        {
+                                            number: "15+",
+                                            label: "Years Experience",
+                                        },
+                                        {
+                                            number: "40,000 t",
+                                            label: "Annual Production",
+                                        },
+                                        {
+                                            number: "300+",
+                                            label: "Engineering Team",
+                                        },
+                                    ].map((item, index) => (
+                                        <div key={index}>
+                                            <h3
+                                                className="
+            text-white
+
+            text-[28px]
+
+            font-bold
+
+            leading-none
+
+            tracking-[-1px]
+          "
+                                            >
+                                                {item.number.includes("t") ? (
+                                                    <CountUp
+                                                        end={40000}
+                                                        suffix="t"
+                                                    />
+                                                ) : (
+                                                    <CountUp
+                                                        end={parseInt(item.number)}
+                                                        suffix="+"
+                                                    />
+                                                )}
+                                            </h3>
+
+                                            <p
+                                                className="
+            mt-3
+
+            text-[#9A9A9A]
+
+            text-[10px]
+
+            font-semibold
+
+            uppercase
+
+            tracking-[0.8px]
+          "
+                                            >
+                                                {item.label}
+                                            </p>
+                                        </div>
+                                    ))}
                                 </div>
                             </div>
                         </div>
