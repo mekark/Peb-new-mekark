@@ -144,7 +144,7 @@ export default function PebHeroSection() {
             {/* BACKGROUND IMAGE */}
             <div className="absolute inset-0">
                 <Image
-                    src="/Images/Herobg.png"
+                    src="/Images/HERO.png"
                     alt="PEB Background"
                     fill
                     priority
@@ -280,7 +280,7 @@ lg:py-10
       whitespace-nowrap
     "
                                     >
-                                        Chennai's Premier PEB Manufacturer
+                                        PEB Building Manufacturer & Industrial Construction Company
                                     </span>
                                 </div>
 
@@ -338,8 +338,7 @@ lg:py-10
                     lg:leading-[23px]
                   "
                                 >
-                                    Complete PEB solutions for warehouses, factories, industrial sheds, and
-                                    turnkey construction projects delivered with speed, quality, and structural reliability.                                </h2>
+                                    Trusted warehouse construction company and pre engineered building company delivering factories, industrial warehouses, and steel building projects across Chennai & South India.                              </h2>
 
                                 {/* FEATURES */}
                                 <div className="mt-8 space-y-1 max-w-[760px]">

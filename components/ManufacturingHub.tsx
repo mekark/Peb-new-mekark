@@ -213,8 +213,7 @@ export default function ManufacturingHub() {
                   text-[#322C2E]
                 "
                             >
-                                India's industrial leaders trust Mekark because we don't just
-                                design—we manufacture at scale with precision and control.
+                                India’s industrial leaders trust Mekark because we are not just a PEB building manufacturer — we are a complete design & build turnkey EPC solutions provider delivering large-scale industrial infrastructure with precision, speed, and engineering excellence.
                             </p>
 
                             <p
@@ -224,10 +223,7 @@ export default function ManufacturingHub() {
                   text-[#322C2E]
                 "
                             >
-                                Operating from a 6,00,000 sq. ft. fully integrated facility,
-                                Mekark stands among Tamil Nadu’s highest production capacity PEB
-                                manufacturers, delivering up to 3000 tons of steel structures
-                                with speed, consistency, and engineering accuracy.
+                                Operating from a 6,00,000 sq. ft. fully integrated facility, Mekark stands among Tamil Nadu’s leading pre engineered building manufacturers and trusted PEB manufacturers in Chennai, delivering up to 3000 tons of steel structures with consistency, quality, and engineering accuracy.
                             </p>
 
                             <p
@@ -237,10 +233,7 @@ export default function ManufacturingHub() {
                   text-[#322C2E]
                 "
                             >
-                                Our fully automated factory, powered by the latest advanced
-                                machinery, ensures every component is fabricated with exact
-                                specifications—reducing delays, eliminating inconsistencies, and
-                                accelerating project timelines.
+                                Our fully automated manufacturing facility supports advanced PEB warehouse construction, industrial warehouse construction, and customized steel fabrication for complex industrial projects. Every component is manufactured to exact specifications—reducing delays, improving execution quality, and accelerating project timelines.
                             </p>
 
                             <p
@@ -250,10 +243,7 @@ export default function ManufacturingHub() {
                   text-[#322C2E]
                 "
                             >
-                                Backed by ISO-certified processes and a 300+ strong
-                                white-collar engineering team, we bring together technology,
-                                scale, and expertise to deliver structures that are not only
-                                built fast—but built right.
+                                Backed by ISO-certified processes and a 300+ strong engineering team, Mekark delivers integrated design & build turnkey EPC solutions for businesses seeking reliable industrial building contractors, factory construction company expertise, and end-to-end project execution under one roof.
                             </p>
                         </div>
 

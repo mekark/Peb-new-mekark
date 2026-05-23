@@ -7,22 +7,22 @@ const reasons = [
     {
         id: "01",
         title: "We Manufacture. Not Outsource.",
-        desc: "Every structural component is designed and fabricated in our own 6L sq.ft. plant. Full quality ownership. No supply chain surprises.",
+        desc: "Every structure is fabricated in our own facility by experienced pre engineered building manufacturers and PEB steel structure contractors.",
     },
     {
         id: "02",
         title: "Free Engineering Consultation",
-        desc: "Get a free optimized layout plan tailored to your site and requirements — before you commit.",
+        desc: "Get optimized layouts and planning support from a leading warehouse construction company and industrial building contractor.",
     },
     {
         id: "03",
         title: "Fixed Price. On-Time Commitment.",
-        desc: "Transparent pricing, fixed timelines, and on-time delivery — with no hidden costs or excuses.",
+        desc: "Transparent pricing and committed timelines from a trusted turnkey industrial construction company.",
     },
     {
         id: "04",
-        title: "450+ Projects Trust Us",
-        desc: "Trusted by TATA, L&T, and 450+ industrial clients — your project is in proven hands.",
+        title: "450+ Industrial Projects Delivered",
+        desc: "Trusted by industries nationwide for turnkey warehouse construction, factory buildings, and industrial infrastructure solutions.",
     },
 ];
 
@@ -105,12 +105,10 @@ export default function WhyMekark() {
                   text-white/95
                 "
                             >
-                                Most PEB "contractors" outsource fabrication, design, or
-                                erection to third parties — leaving you exposed to quality
-                                gaps, delays, and cost overruns. Mekark is different.
-                                Every bolt is manufactured in our own plant. Every drawing
-                                is made by our own engineers. Every structure is erected by
-                                our own certified team.
+                                Most PEB contractors outsource fabrication and execution.
+                                Mekark does everything in-house — from design and manufacturing to erection and delivery.
+                                As a trusted PEB building manufacturer and industrial construction company, we deliver complete design & build turnkey EPC solutions for factories, warehouses, and industrial buildings across India.
+
                             </p>
 
                             <p
@@ -122,9 +120,7 @@ export default function WhyMekark() {
                   text-white/95
                 "
                             >
-                                When you share your project with Mekark, you get a
-                                committed manufacturing partner accountable from ground
-                                to gable — with 450+ completed projects as proof.
+                                With 450+ completed projects, Mekark is the preferred partner for businesses looking for reliable warehouse construction contractors, factory construction company expertise, and fast-track industrial execution.
                             </p>
                         </div>
 

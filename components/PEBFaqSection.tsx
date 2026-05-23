@@ -15,51 +15,51 @@ const faqData = [
   {
     id: "02",
     question:
-      "How long does a PEB project take to complete?",
+      "Does Mekark provide complete turnkey solutions?",
     answer:
-      "Typical PEB projects take 30–40% less time than RCC. Depending on size and complexity, a standard industrial shed or warehouse can be completed in 45–90 days from design finalisation. Mekark's in-house manufacturing and erection teams ensure no cross-vendor delays.",
+      "Yes. Mekark offers complete design & build turnkey EPC solutions including design, engineering, manufacturing, civil work, fabrication, and erection.",
   },
   {
     id: "03",
     question:
-      "Does Mekark offer turnkey PEB solutions?",
+      "How fast can Mekark complete a project?",
     answer:
-      "Yes. Mekark is a full-service turnkey EPC contractor. We handle everything — structural design, engineering, fabrication, surface treatment, logistics, site erection, and project handover. You deal with one accountable partner from start to finish.",
+      "With in-house manufacturing and execution teams, Mekark can deliver many industrial warehouse construction and factory projects within committed fast-track timelines, including 120-day delivery targets for selected projects.",
   },
   {
     id: "04",
     question:
-      "What is Mekark's production capacity?",
+      "What is Mekark’s manufacturing capacity?",
     answer:
-      "Mekark operates one of Tamil Nadu's highest capacity PEB manufacturing facilities, capable of producing up to 3000 tons of structural steel per month from our 6,00,000 sq.ft. integrated campus in Chennai — enabling us to handle multiple large-scale projects simultaneously.",
+      "Mekark operates a 6,00,000 sq.ft. integrated manufacturing facility with high-capacity production for large-scale PEB warehouse construction and industrial steel structures.",
   },
   {
     id: "05",
     question:
-      "Is Mekark certified for quality and safety?",
+      "What certifications does Mekark have?",
     answer:
-      "Yes. Mekark is ISO 9001 certified and green certified. All structures are designed and fabricated to IS standards and international specifications. Our in-house QC lab inspects every production stage to ensure structural accuracy, surface quality, and dimensional compliance.",
-  },
+      "Mekark follows ISO-certified quality systems and strict safety standards for every industrial steel building construction project.",
+  },      
   {
     id: "06",
     question:
-      "What industries does Mekark serve?",
+      "What services does Mekark provide?",
     answer:
-      "Mekark serves warehousing & logistics, factories & industrial plants, manufacturing, multi-storey steel buildings, energy & power, pharma & food processing, and infrastructure & defence sectors. We deliver customised PEB solutions for each sector's specific structural requirements.",
+      "We provide warehouse construction, factory construction, PEB structures, industrial sheds, EPC solutions, steel fabrication, and turnkey industrial infrastructure development.",
   },
   {
     id: "07",
     question:
-      "How do I get a quote from Mekark?",
+      "Why choose Mekark over other PEB contractors?",
     answer:
-      "Simply fill in the enquiry form on this page with your building type, approximate area, and location. Our engineering team will respond within 2 business hours with a preliminary assessment and schedule a detailed consultation at zero cost to you.",
+      "Unlike many PEB contractors, Mekark handles design, manufacturing, and erection under one company — ensuring better quality control, faster execution, and fixed project accountability.",
   },
   {
     id: "08",
     question:
-      "Does Mekark deliver outside Chennai and Tamil Nadu?",
+      "Which industries does Mekark serve?",
     answer:
-      "Yes. While our manufacturing facility is in Chennai, Tamil Nadu, Mekark delivers PEB projects across PAN India. Our logistics hub and dedicated dispatch fleet enable timely component delivery to any project site, accompanied by our certified erection teams.",
+      "Mekark serves manufacturing, logistics, FMCG, textile, engineering, automobile, electronics, and industrial infrastructure sectors across India.",
   },
 ];
 

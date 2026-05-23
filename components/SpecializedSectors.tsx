@@ -53,7 +53,7 @@ const sectors = [
     },
     {
         id: "04",
-        title: "Multi Storey Steel",
+        title: "Multi Storey Steel Buildings",
         bg: "/Images/Spcl/Multi.png",
         heading: "Vertical Steel Infrastructure",
         desc: "Optimized for urban expansion and structural excellence.",
@@ -68,7 +68,7 @@ const sectors = [
     },
     {
         id: "05",
-        title: "Cold Storage",
+        title: "Clean Rooms & Cold Storage",
         bg: "/Images/Spcl/cold.png",
         heading: "Temperature-Controlled Engineering",
         desc: "Precision-built environments preserving quality, safety, and compliance.",

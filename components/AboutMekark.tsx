@@ -124,7 +124,7 @@ export default function AboutMekark() {
               "
             >
               <Image
-                src="/Images/about.jpg"
+                src="/Images/abut us.png"
                 alt="Mekark Factory"
                 width={900}
                 height={650}

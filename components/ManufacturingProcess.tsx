@@ -29,23 +29,24 @@ const processSteps = [
     desc: "Precision fabrication in our unit.",
     icon: Factory,
   },
+
   {
     id: "04",
-    title: "Final Handover",
-    desc: "Project delivery on time, every time.",
-    icon: ShieldCheck,
-  },
-  {
-    id: "05",
     title: "On-Site Installation",
     desc: "Safe and fast erection by certified team.",
     icon: HardHat,
   },
   {
-    id: "06",
+    id: "05",
     title: "Quality Check",
     desc: "Rigorous inspection of materials.",
     icon: Truck,
+  },
+  {
+    id: "06",
+    title: "Final Handover",
+    desc: "Project delivery on time, every time.",
+    icon: ShieldCheck,
   },
 ];
 
