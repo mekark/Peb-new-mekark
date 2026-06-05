@@ -130,9 +130,7 @@ export default function PebHeroSection() {
     console.log("HANDLE SUBMIT STARTED");
 
     e.preventDefault();
-    alert("HANDLE SUBMIT FIRED");
 
-    console.log("HANDLE SUBMIT FIRED");
 
 
     if (!validateForm()) return;
