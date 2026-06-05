@@ -5,167 +5,196 @@ import { MessageCircle, Phone, Star } from "lucide-react";
 import { useEffect, useState } from "react";
 
 const industryOptions = [
-    "Warehouse & Logistics",
-    "Factories, Industries & Plants",
-    "Manufacturing",
-    "Multi Storey Steel",
-    "Cold Storage",
+  "Warehouse & Logistics",
+  "Factories, Industries & Plants",
+  "Manufacturing",
+  "Multi Storey Steel",
+  "Cold Storage",
 ];
 
 const sqftOptions = [
-    "10,000 - 20,000 Sq.ft",
-    "20,000 - 30,000 Sq.ft",
-    "30,000 - 50,000 Sq.ft",
-    "50,000+ Sq.ft",
+  "10,000 - 20,000 Sq.ft",
+  "20,000 - 30,000 Sq.ft",
+  "30,000 - 50,000 Sq.ft",
+  "50,000+ Sq.ft",
 ];
 
 const THANK_YOU_URL = "https://peb.mekark.com/thank-you";
+const FORM_ENDPOINT = "/api/enquiry-form";
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
 
 const WHATSAPP_NUMBER = "919790924754";
 const WHATSAPP_MESSAGE =
-    "Hello Mekark, I would like to discuss about my warehouse construction project.";
+  "Hello Mekark, I would like to discuss about my warehouse construction project.";
 const PHONE_NUMBER = "9790924754";
-function CountUp({
-    end,
-    suffix = "",
-}: {
-    end: number;
-    suffix?: string;
-}) {
-    const [count, setCount] = useState(0);
+function CountUp({ end, suffix = "" }: { end: number; suffix?: string }) {
+  const [count, setCount] = useState(0);
 
-    useEffect(() => {
-        let start = 0;
+  useEffect(() => {
+    let start = 0;
 
-        const duration = 3900;
+    const duration = 3900;
 
-        const increment = end / (duration / 16);
+    const increment = end / (duration / 16);
 
-        const counter = setInterval(() => {
-            start += increment;
+    const counter = setInterval(() => {
+      start += increment;
 
-            if (start >= end) {
-                setCount(end);
+      if (start >= end) {
+        setCount(end);
 
-                clearInterval(counter);
-            } else {
-                setCount(Math.floor(start));
-            }
-        }, 16);
+        clearInterval(counter);
+      } else {
+        setCount(Math.floor(start));
+      }
+    }, 16);
 
-        return () => clearInterval(counter);
-    }, [end]);
+    return () => clearInterval(counter);
+  }, [end]);
 
-    return (
-        <>
-            {count}
-            <span className="text-[#E40015]">
-                {suffix}
-            </span>
-        </>
-    );
+  return (
+    <>
+      {count}
+      <span className="text-[#E40015]">{suffix}</span>
+    </>
+  );
 }
 
 export default function PebHeroSection() {
-    const [formData, setFormData] = useState({
-        name: "",
-        company: "",
-        phone: "",
-        email: "",
-        location: "",
-        industry: "",
-        sqft: "",
-        message: "",
+  const [formData, setFormData] = useState({
+    name: "",
+    company: "",
+    phone: "",
+    email: "",
+    location: "",
+    industry: "",
+    sqft: "",
+    message: "",
+  });
+
+  const [errors, setErrors] = useState<any>({});
+
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >,
+  ) => {
+    let value = e.target.value;
+
+    if (e.target.name === "phone") {
+      value = value.replace(/\D/g, "").slice(0, 10);
+    }
+
+    setFormData({
+      ...formData,
+      [e.target.name]: value,
     });
 
-    const [errors, setErrors] = useState<any>({});
+    setErrors({
+      ...errors,
+      [e.target.name]: "",
+    });
+  };
 
-    const handleChange = (
-        e: React.ChangeEvent<
-            HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-        >
-    ) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value,
-        });
+  const validateForm = () => {
+    let newErrors: any = {};
 
-        setErrors({
-            ...errors,
-            [e.target.name]: "",
-        });
-    };
+    // NAME
+    if (!formData.name.trim()) {
+      newErrors.name = "Name is required";
+    }
 
-    const validateForm = () => {
-        let newErrors: any = {};
+    // PHONE
+    if (!formData.phone.trim()) {
+      newErrors.phone = "Phone number is required";
+    } else if (!/^[0-9]{10}$/.test(formData.phone)) {
+      newErrors.phone = "Enter valid 10 digit number";
+    }
 
-        // NAME
-        if (!formData.name.trim()) {
-            newErrors.name = "Name is required";
-        }
+    // INDUSTRY
+    if (!formData.industry) {
+      newErrors.industry = "Select industry type";
+    }
 
-        // PHONE
-        if (!formData.phone.trim()) {
-            newErrors.phone = "Phone number is required";
-        } else if (!/^[0-9]{10}$/.test(formData.phone)) {
-            newErrors.phone = "Enter valid 10 digit number";
-        }
+    // SQFT
+    if (!formData.sqft) {
+      newErrors.sqft = "Select sq.ft range";
+    }
 
-        // INDUSTRY
-        if (!formData.industry) {
-            newErrors.industry = "Select industry type";
-        }
+    setErrors(newErrors);
 
-        // SQFT
-        if (!formData.sqft) {
-            newErrors.sqft = "Select sq.ft range";
-        }
+    return Object.keys(newErrors).length === 0;
+  };
 
-        setErrors(newErrors);
+  const handleSubmit = async (e: React.FormEvent) => {
+    console.log("HANDLE SUBMIT STARTED");
 
-        return Object.keys(newErrors).length === 0;
-    };
+    e.preventDefault();
+    alert("HANDLE SUBMIT FIRED");
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
+    console.log("HANDLE SUBMIT FIRED");
 
-        if (!validateForm()) return;
 
-        // REDIRECT TO THANK YOU PAGE
-        setTimeout(() => {
-            window.location.href = THANK_YOU_URL;
-        }, 1200);
-    };
-    return (
-        <section id="home"
-            className="relative overflow-hidden min-h-screen">
-            {/* BACKGROUND IMAGE */}
-            <div className="absolute inset-0">
-                <Image
-                    src="/Images/HERO.png"
-                    alt="PEB Background"
-                    fill
-                    priority
-                    className="object-cover"
-                />
-            </div>
+    if (!validateForm()) return;
 
-            {/* LEFT DARK GRADIENT */}
-            <div
-                className="
+    try {
+      const response = await fetch(FORM_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.name.trim(),
+          email: formData.email.trim(),
+          phone: formData.phone.trim(),
+          company: formData.company.trim(),
+          location: formData.location.trim(),
+          industry: formData.industry.trim(),
+          sqf: formData.sqft.trim(),
+          message: formData.message.trim(),
+        }),
+      });
+
+      const payload = await response.json().catch(() => null);
+
+      console.log("Response:", payload);
+
+      if (!response.ok) {
+        throw new Error(payload?.message || "Unable to submit form.");
+      }
+
+      window.location.href = THANK_YOU_URL;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  return (
+    <section id="home" className="relative overflow-hidden min-h-screen">
+      {/* BACKGROUND IMAGE */}
+      <div className="absolute inset-0">
+        <Image
+          src="/Images/HERO.png"
+          alt="PEB Background"
+          fill
+          priority
+          className="object-cover"
+        />
+      </div>
+
+      {/* LEFT DARK GRADIENT */}
+      <div
+        className="
           absolute
           inset-0
           z-[1]
           bg-[linear-gradient(90deg,#000_0%,#000000f5_22%,#000000df_42%,rgba(0,0,0,0.45)_62%,transparent_100%)]
         "
-            />
+      />
 
-            {/* MAIN CONTENT */}
-            <div className="relative z-20 w-full">
-                <div
-                    className="
+      {/* MAIN CONTENT */}
+      <div className="relative z-20 w-full">
+        <div
+          className="
             max-w-[1720px]
             mx-auto
 
@@ -175,9 +204,9 @@ export default function PebHeroSection() {
             xl:px-16
             2xl:px-20
           "
-                >
-                    <div
-                        className="
+        >
+          <div
+            className="
 min-h-screen
 
 flex
@@ -192,10 +221,10 @@ lg:pt-[107px]
 pb-14
 lg:py-10
             "
-                    >
-                        {/* GRID */}
-                        <div
-                            className="
+          >
+            {/* GRID */}
+            <div
+              className="
                 w-full
                 grid
                 grid-cols-1
@@ -207,17 +236,17 @@ lg:py-10
                 xl:gap-14
                 2xl:gap-20
               "
-                        >
-                            {/* LEFT SIDE */}
-                            <div
-                                className="
+            >
+              {/* LEFT SIDE */}
+              <div
+                className="
                   w-full
                   max-w-[860px]
                 "
-                            >
-                                {/* TOP BADGE */}
-                                <div
-                                    className="
+              >
+                {/* TOP BADGE */}
+                <div
+                  className="
     inline-flex
     items-center
 
@@ -246,10 +275,10 @@ lg:py-10
 
     max-w-full
   "
-                                >
-                                    {/* DOT */}
-                                    <div
-                                        className="
+                >
+                  {/* DOT */}
+                  <div
+                    className="
       w-2
       h-2
 
@@ -259,11 +288,11 @@ lg:py-10
 
       shrink-0
     "
-                                    />
+                  />
 
-                                    {/* TEXT */}
-                                    <span
-                                        className="
+                  {/* TEXT */}
+                  <span
+                    className="
       text-white
 
       text-[12px]
@@ -279,14 +308,14 @@ lg:py-10
 
       whitespace-nowrap
     "
-                                    >
-                                        PEB Building Manufacturer & Industrial Construction Company
-                                    </span>
-                                </div>
+                  >
+                    PEB Building Manufacturer & Industrial Construction Company
+                  </span>
+                </div>
 
-                                {/* HEADING */}
-                                <h1
-                                    className="
+                {/* HEADING */}
+                <h1
+                  className="
     font-manrope
 
     font-semibold
@@ -313,17 +342,14 @@ lg:py-10
 
     tracking-[-1.5px]
   "
-                                >
-                                    Build Smarter & Faster with End-to-End  <br />
+                >
+                  Build Smarter & Faster with End-to-End <br />
+                  <span className="text-[#E40015]">PEB Construction </span>
+                </h1>
 
-                                    <span className="text-[#E40015]">
-                                        PEB Construction  </span>
-
-                                </h1>
-
-                                {/* SUBHEADING */}
-                                <h2
-                                    className="
+                {/* SUBHEADING */}
+                <h2
+                  className="
                     mt-8
 
                     max-w-[760px]
@@ -337,41 +363,44 @@ lg:py-10
                     lg:text-[19px]
                     lg:leading-[23px]
                   "
-                                >
-                                    Trusted warehouse construction company and pre engineered building company delivering factories, industrial warehouses, and steel building projects across Chennai & South India.                              </h2>
+                >
+                  Trusted warehouse construction company and pre engineered
+                  building company delivering factories, industrial warehouses,
+                  and steel building projects across Chennai & South India.{" "}
+                </h2>
 
-                                {/* FEATURES */}
-                                <div className="mt-8 space-y-1 max-w-[760px]">
-                                    {[
-                                        "High-Capacity Manufacturing (3000+ Tons / Month) for Fast Project Delivery",
-                                        "ISO-Certified Quality Systems for Consistent Structural Performance",
-                                        "Fully Equipped with Advanced Automated Machinery",
-                                        "Green-Certified Facility Supporting Sustainable Construction",
-                                        "6 Lakh Sq. Ft In-House Manufacturing Ecosystem",
-                                    ].map((item, index) => (
-                                        <div key={index} className="flex items-start gap-4">
-                                            {/* ARROW ICON */}
-                                            <div className="mt-[7px] flex-shrink-0">
-                                                <svg
-                                                    width="14"
-                                                    height="14"
-                                                    viewBox="0 0 14 14"
-                                                    fill="none"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                >
-                                                    <path
-                                                        d="M4 2L9 7L4 12"
-                                                        stroke="#E40015"
-                                                        strokeWidth="2"
-                                                        strokeLinecap="round"
-                                                        strokeLinejoin="round"
-                                                    />
-                                                </svg>
-                                            </div>
+                {/* FEATURES */}
+                <div className="mt-8 space-y-1 max-w-[760px]">
+                  {[
+                    "High-Capacity Manufacturing (3000+ Tons / Month) for Fast Project Delivery",
+                    "ISO-Certified Quality Systems for Consistent Structural Performance",
+                    "Fully Equipped with Advanced Automated Machinery",
+                    "Green-Certified Facility Supporting Sustainable Construction",
+                    "6 Lakh Sq. Ft In-House Manufacturing Ecosystem",
+                  ].map((item, index) => (
+                    <div key={index} className="flex items-start gap-4">
+                      {/* ARROW ICON */}
+                      <div className="mt-[7px] flex-shrink-0">
+                        <svg
+                          width="14"
+                          height="14"
+                          viewBox="0 0 14 14"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M4 2L9 7L4 12"
+                            stroke="#E40015"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </div>
 
-                                            {/* TEXT */}
-                                            <p
-                                                className="
+                      {/* TEXT */}
+                      <p
+                        className="
           text-white/85
           font-inter
 
@@ -381,16 +410,16 @@ lg:py-10
           lg:text-[15px]
           lg:leading-[30px]
         "
-                                            >
-                                                {item}
-                                            </p>
-                                        </div>
-                                    ))}
-                                </div>
+                      >
+                        {item}
+                      </p>
+                    </div>
+                  ))}
+                </div>
 
-                                {/* REVIEW BADGE */}
-                                <div
-                                    className="
+                {/* REVIEW BADGE */}
+                <div
+                  className="
     mt-10
 
     inline-flex
@@ -408,79 +437,79 @@ lg:py-10
     px-5
     py-4
   "
-                                >
-                                    {/* CLIENT LOGOS */}
-                                    <div className="flex -space-x-2">
-                                        <Image
-                                            src="/Images/Logos/kom.png"
-                                            alt="Client"
-                                            width={42}
-                                            height={42}
-                                            className="
+                >
+                  {/* CLIENT LOGOS */}
+                  <div className="flex -space-x-2">
+                    <Image
+                      src="/Images/Logos/kom.png"
+                      alt="Client"
+                      width={42}
+                      height={42}
+                      className="
         rounded-full
         border-2
         border-white
         object-cover
       "
-                                        />
+                    />
 
-                                        <Image
-                                            src="/Images/Logos/sarvam.png"
-                                            alt="Client"
-                                            width={42}
-                                            height={42}
-                                            className="
+                    <Image
+                      src="/Images/Logos/sarvam.png"
+                      alt="Client"
+                      width={42}
+                      height={42}
+                      className="
         rounded-full
         border-2
         border-white
         object-cover
       "
-                                        />
+                    />
 
-                                        <Image
-                                            src="/Images/Logos/vwu.png"
-                                            alt="Client"
-                                            width={42}
-                                            height={42}
-                                            className="
+                    <Image
+                      src="/Images/Logos/vwu.png"
+                      alt="Client"
+                      width={42}
+                      height={42}
+                      className="
         rounded-full
         border-2
         border-white
         object-cover
       "
-                                        />
-                                    </div>
+                    />
+                  </div>
 
-                                    {/* REVIEW CONTENT */}
-                                    <div>
-                                        {/* STARS */}
-                                        <div className="flex items-center gap-1">
-                                            {[1, 2, 3, 4, 5].map((star) => (
-                                                <Star
-                                                    key={star}
-                                                    className="w-4 h-4 fill-[#FFB800] text-[#FFB800]"
-                                                />
-                                            ))}
+                  {/* REVIEW CONTENT */}
+                  <div>
+                    {/* STARS */}
+                    <div className="flex items-center gap-1">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <Star
+                          key={star}
+                          className="w-4 h-4 fill-[#FFB800] text-[#FFB800]"
+                        />
+                      ))}
 
-                                            <span className="text-white font-bold text-[18px] ml-2">
-                                                4.7/5
-                                            </span>
-                                        </div>
+                      <span className="text-white font-bold text-[18px] ml-2">
+                        4.7/5
+                      </span>
+                    </div>
 
-                                        {/* TEXT */}
-                                        <p className="text-white/80 text-sm mt-1 font-medium">
-                                            Trusted Client Rating
-                                        </p>
+                    {/* TEXT */}
+                    <p className="text-white/80 text-sm mt-1 font-medium">
+                      Trusted Client Rating
+                    </p>
 
-                                        <p className="text-white/60 text-xs mt-0.5">
-                                            500+ Successful Industrial Projects
-                                        </p>
-                                    </div>
-                                </div>
+                    <p className="text-white/60 text-xs mt-0.5">
+                      500+ Successful Industrial Projects
+                    </p>
+                  </div>
+                </div>
 
-                                {/* STATS SECTION */}
-                                <div
-                                    className="
+                {/* STATS SECTION */}
+                <div
+                  className="
     mt-10
 
     w-full
@@ -499,29 +528,29 @@ lg:grid
     gap-y-8
     gap-x-6
   "
-                                >
-                                    {[
-                                        {
-                                            number: "450+",
-                                            label: "Projects",
-                                        },
-                                        {
-                                            number: "15+",
-                                            label: "Years Experience",
-                                        },
-                                        {
-                                            number: "40,000 t",
-                                            label: "Annual Production",
-                                        },
-                                        {
-                                            number: "300+",
-                                            label: "Engineering Team",
-                                        },
-                                    ].map((item, index) => (
-                                        <div key={index}>
-                                            {/* NUMBER */}
-                                            <h3
-                                                className="
+                >
+                  {[
+                    {
+                      number: "450+",
+                      label: "Projects",
+                    },
+                    {
+                      number: "15+",
+                      label: "Years Experience",
+                    },
+                    {
+                      number: "40,000 t",
+                      label: "Annual Production",
+                    },
+                    {
+                      number: "300+",
+                      label: "Engineering Team",
+                    },
+                  ].map((item, index) => (
+                    <div key={index}>
+                      {/* NUMBER */}
+                      <h3
+                        className="
           text-white
 
           text-[38px]
@@ -533,23 +562,17 @@ lg:grid
 
           tracking-[-1px]
         "
-                                            >
-                                                {item.number.includes("t") ? (
-                                                    <CountUp
-                                                        end={40000}
-                                                        suffix="t"
-                                                    />
-                                                ) : (
-                                                    <CountUp
-                                                        end={parseInt(item.number)}
-                                                        suffix="+"
-                                                    />
-                                                )}
-                                            </h3>
+                      >
+                        {item.number.includes("t") ? (
+                          <CountUp end={40000} suffix="t" />
+                        ) : (
+                          <CountUp end={parseInt(item.number)} suffix="+" />
+                        )}
+                      </h3>
 
-                                            {/* LABEL */}
-                                            <p
-                                                className="
+                      {/* LABEL */}
+                      <p
+                        className="
           mt-3
 
           text-[#9A9A9A]
@@ -562,21 +585,23 @@ lg:grid
 
           tracking-[0.8px]
         "
-                                            >
-                                                {item.label}
-                                            </p>
-                                        </div>
-                                    ))}
-                                </div>
+                      >
+                        {item.label}
+                      </p>
+                    </div>
+                  ))}
+                </div>
 
-                                {/* BUTTONS */}
-                                <div className="mt-10 hidden
-lg:flex flex-col sm:flex-row gap-5">
-                                    <a
-                                        href={`https://wa.me/${WHATSAPP_NUMBER}`}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="
+                {/* BUTTONS */}
+                <div
+                  className="mt-10 hidden
+lg:flex flex-col sm:flex-row gap-5"
+                >
+                  <a
+                    href={`https://wa.me/${WHATSAPP_NUMBER}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="
     flex
     items-center
     justify-center
@@ -600,15 +625,14 @@ lg:flex flex-col sm:flex-row gap-5">
 
     shadow-[0_0_45px_rgba(228,0,21,0.35)]
   "
-                                    >
-                                        <MessageCircle className="w-6 h-6" />
+                  >
+                    <MessageCircle className="w-6 h-6" />
+                    WhatsApp Us
+                  </a>
 
-                                        WhatsApp Us
-                                    </a>
-
-                                    <a
-                                        href={`tel:${PHONE_NUMBER}`}
-                                        className="
+                  <a
+                    href={`tel:${PHONE_NUMBER}`}
+                    className="
 hidden
 lg:flex    items-center
     justify-center
@@ -635,25 +659,24 @@ lg:flex    items-center
 
     text-lg
   "
-                                    >
-                                        <Phone className="w-6 h-6" />
+                  >
+                    <Phone className="w-6 h-6" />
+                    Call Us
+                  </a>
+                </div>
+              </div>
 
-                                        Call Us
-                                    </a>
-                                </div>
-                            </div>
-
-                            {/* RIGHT SIDE */}
-                            <div
-                                className="
+              {/* RIGHT SIDE */}
+              <div
+                className="
                   w-full
                   flex
                   justify-center
                   lg:justify-end
                 "
-                            >
-                                <div
-                                    className="
+              >
+                <div
+                  className="
                     w-full
 
                     max-w-[640px]
@@ -668,10 +691,10 @@ lg:flex    items-center
                     sm:p-8
                     lg:p-10
                   "
-                                >
-                                    {/* TITLE */}
-                                    <h3
-                                        className="
+                >
+                  {/* TITLE */}
+                  <h3
+                    className="
                       text-center
                       font-manrope
                       font-bold
@@ -685,28 +708,25 @@ lg:flex    items-center
 
                       tracking-[-1px]
                     "
-                                    >
-                                        Request Your Project Blueprint
-                                    </h3>
+                  >
+                    Request Your Project Blueprint
+                  </h3>
 
-                                    <p className="text-center text-gray-500 mt-3 text-[15px] lg:text-[13px]">
-                                        Get a custom layout, cost range & 120-day timeline
-                                    </p>
+                  <p className="text-center text-gray-500 mt-3 text-[15px] lg:text-[13px]">
+                    Get a custom layout, cost range & 120-day timeline
+                  </p>
 
-                                    {/* FORM */}
-                                    <form
-                                        onSubmit={handleSubmit}
-                                        className="mt-8 space-y-4"
-                                    >
-                                        {/* NAME */}
-                                        <div>
-                                            <input
-                                                type="text"
-                                                name="name"
-                                                value={formData.name}
-                                                onChange={handleChange}
-                                                placeholder="Enter Your Full Name*"
-                                                className="
+                  {/* FORM */}
+                  <form onSubmit={handleSubmit} className="mt-8 space-y-4">
+                    {/* NAME */}
+                    <div>
+                      <input
+                        type="text"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        placeholder="Enter Your Full Name*"
+                        className="
                     w-full
                     h-[54px]
                     rounded-[10px]
@@ -725,23 +745,23 @@ lg:flex    items-center
                     transition-all
                     duration-300
                   "
-                                            />
+                      />
 
-                                            {errors.name && (
-                                                <p className="text-red-500 text-sm mt-2">
-                                                    {errors.name}
-                                                </p>
-                                            )}
-                                        </div>
+                      {errors.name && (
+                        <p className="text-red-500 text-sm mt-2">
+                          {errors.name}
+                        </p>
+                      )}
+                    </div>
 
-                                        {/* COMPANY */}
-                                        <input
-                                            type="text"
-                                            name="company"
-                                            value={formData.company}
-                                            onChange={handleChange}
-                                            placeholder="Enter Company Name"
-                                            className="
+                    {/* COMPANY */}
+                    <input
+                      type="text"
+                      name="company"
+                      value={formData.company}
+                      onChange={handleChange}
+                      placeholder="Enter Company Name"
+                      className="
                   w-full
                   h-[54px]
                   rounded-[10px]
@@ -760,19 +780,20 @@ lg:flex    items-center
                   transition-all
                   duration-300
                 "
-                                        />
+                    />
 
-                                        {/* GRID */}
-                                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                            {/* PHONE */}
-                                            <div>
-                                                <input
-                                                    type="text"
-                                                    name="phone"
-                                                    value={formData.phone}
-                                                    onChange={handleChange}
-                                                    placeholder="Enter Mobile Number*"
-                                                    className="
+                    {/* GRID */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      {/* PHONE */}
+                      <div>
+                        <input
+                          type="text"
+                          name="phone"
+                          maxLength={10}
+                          value={formData.phone}
+                          onChange={handleChange}
+                          placeholder="Enter Mobile Number*"
+                          className="
                       w-full
                       h-[54px]
                       rounded-[10px]
@@ -791,23 +812,23 @@ lg:flex    items-center
                       transition-all
                       duration-300
                     "
-                                                />
+                        />
 
-                                                {errors.phone && (
-                                                    <p className="text-red-500 text-sm mt-2">
-                                                        {errors.phone}
-                                                    </p>
-                                                )}
-                                            </div>
+                        {errors.phone && (
+                          <p className="text-red-500 text-sm mt-2">
+                            {errors.phone}
+                          </p>
+                        )}
+                      </div>
 
-                                            {/* EMAIL */}
-                                            <input
-                                                type="email"
-                                                name="email"
-                                                value={formData.email}
-                                                onChange={handleChange}
-                                                placeholder="Enter Email Address"
-                                                className="
+                      {/* EMAIL */}
+                      <input
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        placeholder="Enter Email Address"
+                        className="
                     w-full
                     h-[54px]
                     rounded-[10px]
@@ -826,19 +847,15 @@ lg:flex    items-center
                     transition-all
                     duration-300
                   "
-                                            />
+                      />
 
-                                            {/* INDUSTRY */}
-                                            <div>
-                                                <select
-                                                    name="industry"
-                                                    value={
-                                                        formData.industry
-                                                    }
-                                                    onChange={
-                                                        handleChange
-                                                    }
-                                                    className="
+                      {/* INDUSTRY */}
+                      <div>
+                        <select
+                          name="industry"
+                          value={formData.industry}
+                          onChange={handleChange}
+                          className="
                       w-full
                       h-[54px]
                       rounded-[10px]
@@ -856,54 +873,36 @@ lg:flex    items-center
                       transition-all
                       duration-300
                     "
-                                                >
-                                                    <option value="">
-                                                        Select Industry
-                                                        Type*
-                                                    </option>
+                        >
+                          <option value="">Select Industry Type*</option>
 
-                                                    {[
-                                                        "Warehouse & Logistics",
-                                                        "Factories, Industries & Plants",
-                                                        "Manufacturing",
-                                                        "Multi Storey Steel",
-                                                        "Cold Storage",
-                                                    ].map(
-                                                        (industry) => (
-                                                            <option
-                                                                key={
-                                                                    industry
-                                                                }
-                                                                value={
-                                                                    industry
-                                                                }
-                                                            >
-                                                                {
-                                                                    industry
-                                                                }
-                                                            </option>
-                                                        )
-                                                    )}
-                                                </select>
+                          {[
+                            "Warehouse & Logistics",
+                            "Factories, Industries & Plants",
+                            "Manufacturing",
+                            "Multi Storey Steel",
+                            "Cold Storage",
+                          ].map((industry) => (
+                            <option key={industry} value={industry}>
+                              {industry}
+                            </option>
+                          ))}
+                        </select>
 
-                                                {errors.industry && (
-                                                    <p className="text-red-500 text-sm mt-2">
-                                                        {
-                                                            errors.industry
-                                                        }
-                                                    </p>
-                                                )}
-                                            </div>
+                        {errors.industry && (
+                          <p className="text-red-500 text-sm mt-2">
+                            {errors.industry}
+                          </p>
+                        )}
+                      </div>
 
-                                            {/* SQFT */}
-                                            <div>
-                                                <select
-                                                    name="sqft"
-                                                    value={formData.sqft}
-                                                    onChange={
-                                                        handleChange
-                                                    }
-                                                    className="
+                      {/* SQFT */}
+                      <div>
+                        <select
+                          name="sqft"
+                          value={formData.sqft}
+                          onChange={handleChange}
+                          className="
                       w-full
                       h-[54px]
                       rounded-[10px]
@@ -921,52 +920,36 @@ lg:flex    items-center
                       transition-all
                       duration-300
                     "
-                                                >
-                                                    <option value="">
-                                                        Select Sq.ft
-                                                        Requirement*
-                                                    </option>
+                        >
+                          <option value="">Select Sq.ft Requirement*</option>
 
-                                                    {[
-                                                        "10,000 - 20,000 Sq.ft",
-                                                        "20,000 - 30,000 Sq.ft",
-                                                        "30,000 - 50,000 Sq.ft",
-                                                        "50,000+ Sq.ft",
-                                                    ].map(
-                                                        (sqft) => (
-                                                            <option
-                                                                key={
-                                                                    sqft
-                                                                }
-                                                                value={
-                                                                    sqft
-                                                                }
-                                                            >
-                                                                {sqft}
-                                                            </option>
-                                                        )
-                                                    )}
-                                                </select>
+                          {[
+                            "10,000 - 20,000 Sq.ft",
+                            "20,000 - 30,000 Sq.ft",
+                            "30,000 - 50,000 Sq.ft",
+                            "50,000+ Sq.ft",
+                          ].map((sqft) => (
+                            <option key={sqft} value={sqft}>
+                              {sqft}
+                            </option>
+                          ))}
+                        </select>
 
-                                                {errors.sqft && (
-                                                    <p className="text-red-500 text-sm mt-2">
-                                                        {errors.sqft}
-                                                    </p>
-                                                )}
-                                            </div>
+                        {errors.sqft && (
+                          <p className="text-red-500 text-sm mt-2">
+                            {errors.sqft}
+                          </p>
+                        )}
+                      </div>
 
-                                            {/* LOCATION */}
-                                            <input
-                                                type="text"
-                                                name="location"
-                                                value={
-                                                    formData.location
-                                                }
-                                                onChange={
-                                                    handleChange
-                                                }
-                                                placeholder="Enter Project Location"
-                                                className="
+                      {/* LOCATION */}
+                      <input
+                        type="text"
+                        name="location"
+                        value={formData.location}
+                        onChange={handleChange}
+                        placeholder="Enter Project Location"
+                        className="
                     w-full
                     h-[54px]
                     rounded-[10px]
@@ -985,20 +968,16 @@ lg:flex    items-center
                     transition-all
                     duration-300
                   "
-                                            />
+                      />
 
-                                            {/* DETAILS */}
-                                            <input
-                                                type="text"
-                                                name="details"
-                                                value={
-                                                    formData.message
-                                                }
-                                                onChange={
-                                                    handleChange
-                                                }
-                                                placeholder="Enter Requirement Details"
-                                                className="
+                      {/* DETAILS */}
+                      <input
+                        type="text"
+                        name="message"
+                        value={formData.message}
+                        onChange={handleChange}
+                        placeholder="Enter Requirement Details"
+                        className="
                     w-full
                     h-[54px]
                     rounded-[10px]
@@ -1017,13 +996,13 @@ lg:flex    items-center
                     transition-all
                     duration-300
                   "
-                                            />
-                                        </div>
+                      />
+                    </div>
 
-                                        {/* BUTTON */}
-                                        <button
-                                            type="submit"
-                                            className="
+                    {/* BUTTON */}
+                    <button
+                      type="submit"
+                      className="
                   mt-3
                   w-full
                   h-[58px]
@@ -1037,32 +1016,27 @@ lg:flex    items-center
                   duration-300
                   hover:scale-[1.01]
                 "
-                                        >
-                                            Get My Free Quote →
-                                        </button>
+                    >
+                      Get My Free Quote →
+                    </button>
+                  </form>
 
-
-                                    </form>
-
-
-                                    {/* FOOTER */}
-                                    <p className="text-center text-gray-400 text-sm mt-5">
-                                        100% Transparent Consultation with single point project
-                                        support
-                                    </p>
-                                </div>
-                            </div>
-                            {/* MOBILE BUTTONS + STATS */}
-                            <div className="lg:hidden w-full mt-6">
-
-                                {/* MOBILE BUTTONS */}
-                                <div className="flex flex-col gap-4">
-
-                                    <a
-                                        href={`https://wa.me/${WHATSAPP_NUMBER}`}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="
+                  {/* FOOTER */}
+                  <p className="text-center text-gray-400 text-sm mt-5">
+                    100% Transparent Consultation with single point project
+                    support
+                  </p>
+                </div>
+              </div>
+              {/* MOBILE BUTTONS + STATS */}
+              <div className="lg:hidden w-full mt-6">
+                {/* MOBILE BUTTONS */}
+                <div className="flex flex-col gap-4">
+                  <a
+                    href={`https://wa.me/${WHATSAPP_NUMBER}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="
         w-full
 
         flex
@@ -1088,15 +1062,14 @@ lg:flex    items-center
 
         shadow-[0_0_45px_rgba(228,0,21,0.35)]
       "
-                                    >
-                                        <MessageCircle className="w-5 h-5" />
+                  >
+                    <MessageCircle className="w-5 h-5" />
+                    WhatsApp Us
+                  </a>
 
-                                        WhatsApp Us
-                                    </a>
-
-                                    <a
-                                        href={`tel:${PHONE_NUMBER}`}
-                                        className="
+                  <a
+                    href={`tel:${PHONE_NUMBER}`}
+                    className="
         w-full
 
         flex
@@ -1125,16 +1098,15 @@ lg:flex    items-center
 
         text-[15px]
       "
-                                    >
-                                        <Phone className="w-5 h-5" />
+                  >
+                    <Phone className="w-5 h-5" />
+                    Call Us
+                  </a>
+                </div>
 
-                                        Call Us
-                                    </a>
-                                </div>
-
-                                {/* MOBILE STATS */}
-                                <div
-                                    className="
+                {/* MOBILE STATS */}
+                <div
+                  className="
       mt-8
 
       border-t
@@ -1148,28 +1120,28 @@ lg:flex    items-center
       gap-y-8
       gap-x-6
     "
-                                >
-                                    {[
-                                        {
-                                            number: "450+",
-                                            label: "Projects",
-                                        },
-                                        {
-                                            number: "15+",
-                                            label: "Years Experience",
-                                        },
-                                        {
-                                            number: "40,000 t",
-                                            label: "Annual Production",
-                                        },
-                                        {
-                                            number: "300+",
-                                            label: "Engineering Team",
-                                        },
-                                    ].map((item, index) => (
-                                        <div key={index}>
-                                            <h3
-                                                className="
+                >
+                  {[
+                    {
+                      number: "450+",
+                      label: "Projects",
+                    },
+                    {
+                      number: "15+",
+                      label: "Years Experience",
+                    },
+                    {
+                      number: "40,000 t",
+                      label: "Annual Production",
+                    },
+                    {
+                      number: "300+",
+                      label: "Engineering Team",
+                    },
+                  ].map((item, index) => (
+                    <div key={index}>
+                      <h3
+                        className="
             text-white
 
             text-[28px]
@@ -1180,22 +1152,16 @@ lg:flex    items-center
 
             tracking-[-1px]
           "
-                                            >
-                                                {item.number.includes("t") ? (
-                                                    <CountUp
-                                                        end={40000}
-                                                        suffix="t"
-                                                    />
-                                                ) : (
-                                                    <CountUp
-                                                        end={parseInt(item.number)}
-                                                        suffix="+"
-                                                    />
-                                                )}
-                                            </h3>
+                      >
+                        {item.number.includes("t") ? (
+                          <CountUp end={40000} suffix="t" />
+                        ) : (
+                          <CountUp end={parseInt(item.number)} suffix="+" />
+                        )}
+                      </h3>
 
-                                            <p
-                                                className="
+                      <p
+                        className="
             mt-3
 
             text-[#9A9A9A]
@@ -1208,18 +1174,17 @@ lg:flex    items-center
 
             tracking-[0.8px]
           "
-                                            >
-                                                {item.label}
-                                            </p>
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
+                      >
+                        {item.label}
+                      </p>
                     </div>
+                  ))}
                 </div>
+              </div>
             </div>
-
-        </section>
-    );
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 }

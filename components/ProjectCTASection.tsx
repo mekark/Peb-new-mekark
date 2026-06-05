@@ -2,14 +2,11 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import {
-  ArrowUpRight,
-  MapPin,
-  Phone,
-} from "lucide-react";
+import { ArrowUpRight, MapPin, Phone } from "lucide-react";
 import { useState } from "react";
 
-const THANK_YOU_URL = "/thank-you";
+const THANK_YOU_URL = "https://peb.mekark.com/thank-you";
+const FORM_ENDPOINT = "/api/enquiry-form";
 
 const WHATSAPP_NUMBER = "919790924754";
 
@@ -31,14 +28,23 @@ export default function ProjectCTASection() {
 
   const handleChange = (
     e: React.ChangeEvent<
-      HTMLInputElement | HTMLSelectElement
+      HTMLInputElement |
+      HTMLSelectElement
     >
   ) => {
+    let value = e.target.value;
+  
+    if (e.target.name === "phone") {
+      value = value
+        .replace(/\D/g, "")
+        .slice(0, 10);
+    }
+  
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [e.target.name]: value,
     });
-
+  
     setErrors({
       ...errors,
       [e.target.name]: "",
@@ -53,45 +59,63 @@ export default function ProjectCTASection() {
     }
 
     if (!formData.phone.trim()) {
-      newErrors.phone =
-        "Phone number is required";
-    } else if (
-      !/^[0-9]{10}$/.test(formData.phone)
-    ) {
-      newErrors.phone =
-        "Enter valid 10 digit number";
+      newErrors.phone = "Phone number is required";
+    } else if (!/^[0-9]{10}$/.test(formData.phone)) {
+      newErrors.phone = "Enter valid 10 digit number";
     }
 
     if (!formData.industry) {
-      newErrors.industry =
-        "Select industry type";
+      newErrors.industry = "Select industry type";
     }
 
     if (!formData.sqft) {
-      newErrors.sqft =
-        "Select sq.ft requirement";
+      newErrors.sqft = "Select sq.ft requirement";
     }
 
     setErrors(newErrors);
 
-    return (
-      Object.keys(newErrors).length === 0
-    );
+    return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = (
-    e: React.FormEvent
-  ) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!validateForm()) return;
 
+    try {
+      const requestPayload = {
+        name: formData.name.trim(),
+        email: formData.email.trim(),
+        phone: formData.phone.trim(),
+        company: formData.company.trim(),
+        location: formData.location.trim(),
+        industry: formData.industry.trim(),
+        sqf: formData.sqft.trim(),
+        message: formData.details.trim(),
+      };
 
+      console.log("REQUEST PAYLOAD:", requestPayload);
 
-    setTimeout(() => {
-      window.location.href =
-        THANK_YOU_URL;
-    }, 1200);
+      const response = await fetch(FORM_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestPayload),
+      });
+
+      const payload = await response.json().catch(() => null);
+
+      console.log("RESPONSE:", payload);
+
+      if (!response.ok) {
+        throw new Error(payload?.message || "Unable to submit form.");
+      }
+
+      window.location.href = THANK_YOU_URL;
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -205,10 +229,8 @@ export default function ProjectCTASection() {
                 max-w-[520px]
               "
             >
-              Share your requirement —
-              our engineering team
-              responds with a layout,
-              BOQ and timeline.
+              Share your requirement — our engineering team responds with a
+              layout, BOQ and timeline.
             </motion.p>
 
             {/* Cards */}
@@ -261,10 +283,7 @@ export default function ProjectCTASection() {
                       justify-center
                     "
                   >
-                    <Phone
-                      className="text-white"
-                      size={22}
-                    />
+                    <Phone className="text-white" size={22} />
                   </div>
 
                   <div>
@@ -405,10 +424,7 @@ export default function ProjectCTASection() {
                 max-w-[560px]
               "
             >
-              <MapPin
-                className="text-[#E40015] mt-1"
-                size={30}
-              />
+              <MapPin className="text-[#E40015] mt-1" size={30} />
 
               <p
                 className="
@@ -418,10 +434,8 @@ export default function ProjectCTASection() {
                   font-medium
                 "
               >
-                Mekark Polyhouse Tower,
-                5th Floor, Anna Salai,
-                Little Mount, Guindy,
-                Chennai - 600032
+                Mekark Polyhouse Tower, 5th Floor, Anna Salai, Little Mount,
+                Guindy, Chennai - 600032
               </p>
             </motion.div>
           </div>
@@ -458,8 +472,7 @@ export default function ProjectCTASection() {
                   font-bold
                 "
               >
-                Request Your Project
-                Blueprint
+                Request Your Project Blueprint
               </h3>
 
               <p
@@ -469,9 +482,7 @@ export default function ProjectCTASection() {
                   mt-2
                 "
               >
-                Get a custom layout,
-                cost range & 120-day
-                timeline
+                Get a custom layout, cost range & 120-day timeline
               </p>
             </div>
 
@@ -479,7 +490,6 @@ export default function ProjectCTASection() {
             <form
               onSubmit={handleSubmit}
               id="quote-form"
-
               className="mt-8 space-y-4"
             >
               {/* NAME */}
@@ -512,9 +522,7 @@ export default function ProjectCTASection() {
                 />
 
                 {errors.name && (
-                  <p className="text-red-500 text-sm mt-2">
-                    {errors.name}
-                  </p>
+                  <p className="text-red-500 text-sm mt-2">{errors.name}</p>
                 )}
               </div>
 
@@ -554,6 +562,7 @@ export default function ProjectCTASection() {
                     type="text"
                     name="phone"
                     value={formData.phone}
+                    maxLength={10}
                     onChange={handleChange}
                     placeholder="Enter Mobile Number*"
                     className="
@@ -578,9 +587,7 @@ export default function ProjectCTASection() {
                   />
 
                   {errors.phone && (
-                    <p className="text-red-500 text-sm mt-2">
-                      {errors.phone}
-                    </p>
+                    <p className="text-red-500 text-sm mt-2">{errors.phone}</p>
                   )}
                 </div>
 
@@ -616,12 +623,8 @@ export default function ProjectCTASection() {
                 <div>
                   <select
                     name="industry"
-                    value={
-                      formData.industry
-                    }
-                    onChange={
-                      handleChange
-                    }
+                    value={formData.industry}
+                    onChange={handleChange}
                     className="
                       w-full
                       h-[54px]
@@ -641,10 +644,7 @@ export default function ProjectCTASection() {
                       duration-300
                     "
                   >
-                    <option value="">
-                      Select Industry
-                      Type*
-                    </option>
+                    <option value="">Select Industry Type*</option>
 
                     {[
                       "Warehouse & Logistics",
@@ -652,29 +652,16 @@ export default function ProjectCTASection() {
                       "Manufacturing",
                       "Multi Storey Steel",
                       "Cold Storage",
-                    ].map(
-                      (industry) => (
-                        <option
-                          key={
-                            industry
-                          }
-                          value={
-                            industry
-                          }
-                        >
-                          {
-                            industry
-                          }
-                        </option>
-                      )
-                    )}
+                    ].map((industry) => (
+                      <option key={industry} value={industry}>
+                        {industry}
+                      </option>
+                    ))}
                   </select>
 
                   {errors.industry && (
                     <p className="text-red-500 text-sm mt-2">
-                      {
-                        errors.industry
-                      }
+                      {errors.industry}
                     </p>
                   )}
                 </div>
@@ -684,9 +671,7 @@ export default function ProjectCTASection() {
                   <select
                     name="sqft"
                     value={formData.sqft}
-                    onChange={
-                      handleChange
-                    }
+                    onChange={handleChange}
                     className="
                       w-full
                       h-[54px]
@@ -706,36 +691,22 @@ export default function ProjectCTASection() {
                       duration-300
                     "
                   >
-                    <option value="">
-                      Select Sq.ft
-                      Requirement*
-                    </option>
+                    <option value="">Select Sq.ft Requirement*</option>
 
                     {[
                       "10,000 - 20,000 Sq.ft",
                       "20,000 - 30,000 Sq.ft",
                       "30,000 - 50,000 Sq.ft",
                       "50,000+ Sq.ft",
-                    ].map(
-                      (sqft) => (
-                        <option
-                          key={
-                            sqft
-                          }
-                          value={
-                            sqft
-                          }
-                        >
-                          {sqft}
-                        </option>
-                      )
-                    )}
+                    ].map((sqft) => (
+                      <option key={sqft} value={sqft}>
+                        {sqft}
+                      </option>
+                    ))}
                   </select>
 
                   {errors.sqft && (
-                    <p className="text-red-500 text-sm mt-2">
-                      {errors.sqft}
-                    </p>
+                    <p className="text-red-500 text-sm mt-2">{errors.sqft}</p>
                   )}
                 </div>
 
@@ -743,12 +714,8 @@ export default function ProjectCTASection() {
                 <input
                   type="text"
                   name="location"
-                  value={
-                    formData.location
-                  }
-                  onChange={
-                    handleChange
-                  }
+                  value={formData.location}
+                  onChange={handleChange}
                   placeholder="Enter Project Location"
                   className="
                     w-full
@@ -775,12 +742,8 @@ export default function ProjectCTASection() {
                 <input
                   type="text"
                   name="details"
-                  value={
-                    formData.details
-                  }
-                  onChange={
-                    handleChange
-                  }
+                  value={formData.details}
+                  onChange={handleChange}
                   placeholder="Enter Requirement Details"
                   className="
                     w-full
@@ -833,10 +796,7 @@ export default function ProjectCTASection() {
                   mt-4
                 "
               >
-                100% Transparent
-                Consultation with
-                single point project
-                support
+                100% Transparent Consultation with single point project support
               </p>
             </form>
           </motion.div>
