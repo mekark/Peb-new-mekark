@@ -247,31 +247,20 @@ lg:py-10
                   className="
     inline-flex
     items-center
-
     gap-2
-    sm:gap-3
 
     rounded-full
-
-    border
-    border-white/20
-
+    border border-white/20
     bg-black/40
-
     backdrop-blur-md
 
-    px-4
-    sm:px-5
+    px-3 sm:px-5
+    py-2 sm:py-3
 
-    py-2.5
-    sm:py-3
-
-    mb-5
-    sm:mb-6
-
-    mt-0
+    mb-5 sm:mb-6
 
     max-w-full
+    w-fit
   "
                 >
                   {/* DOT */}
@@ -291,21 +280,20 @@ lg:py-10
                   {/* TEXT */}
                   <span
                     className="
-      text-white
+    text-white
+    text-[11px]
+    leading-[16px]
 
-      text-[12px]
-      leading-[18px]
+    sm:text-sm
+    sm:leading-normal
 
-      sm:text-sm
-      sm:leading-normal
+    md:text-base
 
-      md:text-base
+    font-medium
+    font-manrope
 
-      font-medium
-      font-manrope
-
-      whitespace-nowrap
-    "
+    break-words
+  "
                   >
                     PEB Building Manufacturer & Industrial Construction Company
                   </span>

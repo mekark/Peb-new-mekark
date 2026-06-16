@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const navItems = [
     {
@@ -30,14 +30,128 @@ const navItems = [
 ];
 
 export default function Navbar() {
+    const headerRef =
+        useRef<HTMLElement | null>(null);
+
     const [mobileMenu, setMobileMenu] =
         useState(false);
 
     const [active, setActive] =
         useState("Home");
 
+    const [isOnLightSection, setIsOnLightSection] =
+        useState(false);
+
+    useEffect(() => {
+        const isLightColor = (color: string) => {
+            const match = color.match(
+                /rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*([\d.]+))?\)/
+            );
+
+            if (!match) {
+                return false;
+            }
+
+            const [, red, green, blue, alpha] =
+                match;
+
+            if (alpha !== undefined && Number(alpha) < 0.5) {
+                return false;
+            }
+
+            const brightness =
+                (Number(red) * 299 +
+                    Number(green) * 587 +
+                    Number(blue) * 114) /
+                1000;
+
+            return brightness > 180;
+        };
+
+        const updateNavbarTheme = () => {
+            const header = headerRef.current;
+            const sampleY = Math.min(
+                window.innerHeight - 1,
+                (header?.getBoundingClientRect().bottom ??
+                    90) + 8
+            );
+            const sampleX = window.innerWidth / 2;
+
+            const section = document
+                .elementsFromPoint(sampleX, sampleY)
+                .find((element) => {
+                    if (
+                        header &&
+                        header.contains(element)
+                    ) {
+                        return false;
+                    }
+
+                    return element.closest("section");
+                })
+                ?.closest("section");
+
+            if (!section) {
+                setIsOnLightSection(false);
+                return;
+            }
+
+            let element: Element | null = section;
+
+            while (
+                element &&
+                element !== document.body
+            ) {
+                const backgroundColor =
+                    window.getComputedStyle(
+                        element
+                    ).backgroundColor;
+
+                if (
+                    backgroundColor !==
+                        "rgba(0, 0, 0, 0)" &&
+                    backgroundColor !==
+                        "transparent"
+                ) {
+                    setIsOnLightSection(
+                        isLightColor(backgroundColor)
+                    );
+                    return;
+                }
+
+                element = element.parentElement;
+            }
+
+            setIsOnLightSection(false);
+        };
+
+        updateNavbarTheme();
+
+        window.addEventListener(
+            "scroll",
+            updateNavbarTheme,
+            { passive: true }
+        );
+        window.addEventListener(
+            "resize",
+            updateNavbarTheme
+        );
+
+        return () => {
+            window.removeEventListener(
+                "scroll",
+                updateNavbarTheme
+            );
+            window.removeEventListener(
+                "resize",
+                updateNavbarTheme
+            );
+        };
+    }, []);
+
     return (
         <header
+            ref={headerRef}
             className="
         fixed
         top-0
@@ -144,7 +258,9 @@ lg:pt-5        "
 
                   ${active === item.label
                                         ? "text-[#E40015]"
-                                        : "text-white/80 hover:text-white"
+                                        : isOnLightSection
+                                            ? "text-black/75 hover:text-black"
+                                            : "text-white/80 hover:text-white"
                                     }
                 `}
                             >
@@ -228,7 +344,7 @@ lg:pt-5        "
                             onClick={() =>
                                 setMobileMenu(!mobileMenu)
                             }
-                            className="
+                            className={`
                 lg:hidden
 
                 w-11
@@ -237,9 +353,15 @@ lg:pt-5        "
                 rounded-full
 
                 border
-                border-white/10
+                ${isOnLightSection
+                                    ? "border-black/10"
+                                    : "border-white/10"
+                                }
 
-                bg-white/10
+                ${isOnLightSection
+                                    ? "bg-black/5"
+                                    : "bg-white/10"
+                                }
 
                 backdrop-blur-md
 
@@ -247,8 +369,11 @@ lg:pt-5        "
                 items-center
                 justify-center
 
-                text-white
-              "
+                ${isOnLightSection
+                                    ? "text-black"
+                                    : "text-white"
+                                }
+              `}
                         >
                             {mobileMenu ? (
                                 <X size={20} />
@@ -278,20 +403,26 @@ lg:pt-5        "
           "
                 >
                     <div
-                        className="
+                        className={`
               mt-3
 
               rounded-[24px]
 
               border
-              border-white/10
+              ${isOnLightSection
+                            ? "border-black/10"
+                            : "border-white/10"
+                        }
 
-              bg-black/70
+              ${isOnLightSection
+                            ? "bg-white/95"
+                            : "bg-black/70"
+                        }
 
               backdrop-blur-xl
 
               p-5
-            "
+            `}
                     >
                         <div className="flex flex-col gap-5">
                             {navItems.map((item) => (
@@ -318,7 +449,9 @@ lg:pt-5        "
                     ${active ===
                                             item.label
                                             ? "text-[#E40015]"
-                                            : "text-white/80 hover:text-white"
+                                            : isOnLightSection
+                                                ? "text-black/75 hover:text-black"
+                                                : "text-white/80 hover:text-white"
                                         }
                   `}
                                 >
