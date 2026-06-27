@@ -2,11 +2,25 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { ArrowUpRight, MapPin, Phone } from "lucide-react";
+import { ArrowUpRight, Loader2, MapPin, Phone } from "lucide-react";
 import { useState } from "react";
 
 const THANK_YOU_URL = "https://peb.mekark.com/thank-you";
 const FORM_ENDPOINT = "/api/enquiry-form";
+
+const timelineOptions = [
+  "Immediately",
+  "Within 1 Month",
+  "Within 3 Months",
+  "Planning for Future",
+];
+
+const budgetOptions = [
+  "Below ₹50 Lakhs",
+  "₹50 Lakhs – ₹1 Crore",
+  "₹1 Crore – ₹5 Crores",
+  "Above ₹5 Crores",
+];
 
 const WHATSAPP_NUMBER = "919790924754";
 
@@ -21,10 +35,13 @@ export default function ProjectCTASection() {
     location: "",
     industry: "",
     sqft: "",
+    projectTimeline: "",
+    projectBudget: "",
     details: "",
   });
 
   const [errors, setErrors] = useState<any>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -72,6 +89,14 @@ export default function ProjectCTASection() {
       newErrors.sqft = "Select sq.ft requirement";
     }
 
+    if (!formData.projectTimeline) {
+      newErrors.projectTimeline = "Select project start timeline";
+    }
+
+    if (!formData.projectBudget) {
+      newErrors.projectBudget = "Select project budget";
+    }
+
     setErrors(newErrors);
 
     return Object.keys(newErrors).length === 0;
@@ -82,6 +107,8 @@ export default function ProjectCTASection() {
 
     if (!validateForm()) return;
 
+    setIsSubmitting(true);
+
     try {
       const requestPayload = {
         name: formData.name.trim(),
@@ -91,6 +118,8 @@ export default function ProjectCTASection() {
         location: formData.location.trim(),
         industry: formData.industry.trim(),
         sqf: formData.sqft.trim(),
+        startTimeline: formData.projectTimeline.trim(),
+        budget: formData.projectBudget.trim(),
         message: formData.details.trim(),
       };
 
@@ -115,6 +144,7 @@ export default function ProjectCTASection() {
       window.location.href = THANK_YOU_URL;
     } catch (error) {
       console.error(error);
+      setIsSubmitting(false);
     }
   };
 
@@ -710,6 +740,88 @@ export default function ProjectCTASection() {
                   )}
                 </div>
 
+                {/* PROJECT TIMELINE */}
+                <div>
+                  <select
+                    name="projectTimeline"
+                    value={formData.projectTimeline}
+                    onChange={handleChange}
+                    className="
+                      w-full
+                      h-[54px]
+                      rounded-[10px]
+                      border
+                      border-[#E5E5E5]
+                      bg-[#ECECEC]
+                      px-4
+                      text-[15px]
+                      font-medium
+                      text-black
+                      caret-black
+                      outline-none
+                      focus:border-[#D90916]
+                      focus:bg-white
+                      transition-all
+                      duration-300
+                    "
+                  >
+                    <option value="">Project Start Timeline*</option>
+
+                    {timelineOptions.map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
+
+                  {errors.projectTimeline && (
+                    <p className="text-red-500 text-sm mt-2">
+                      {errors.projectTimeline}
+                    </p>
+                  )}
+                </div>
+
+                {/* PROJECT BUDGET */}
+                <div>
+                  <select
+                    name="projectBudget"
+                    value={formData.projectBudget}
+                    onChange={handleChange}
+                    className="
+                      w-full
+                      h-[54px]
+                      rounded-[10px]
+                      border
+                      border-[#E5E5E5]
+                      bg-[#ECECEC]
+                      px-4
+                      text-[15px]
+                      font-medium
+                      text-black
+                      caret-black
+                      outline-none
+                      focus:border-[#D90916]
+                      focus:bg-white
+                      transition-all
+                      duration-300
+                    "
+                  >
+                    <option value="">Project Budget*</option>
+
+                    {budgetOptions.map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
+
+                  {errors.projectBudget && (
+                    <p className="text-red-500 text-sm mt-2">
+                      {errors.projectBudget}
+                    </p>
+                  )}
+                </div>
+
                 {/* LOCATION */}
                 <input
                   type="text"
@@ -770,6 +882,7 @@ export default function ProjectCTASection() {
               {/* BUTTON */}
               <button
                 type="submit"
+                disabled={isSubmitting}
                 className="
                   mt-3
                   w-full
@@ -783,9 +896,23 @@ export default function ProjectCTASection() {
                   transition-all
                   duration-300
                   hover:scale-[1.01]
+                  disabled:cursor-not-allowed
+                  disabled:opacity-70
+                  disabled:hover:scale-100
+                  flex
+                  items-center
+                  justify-center
+                  gap-2
                 "
               >
-                Get My Free Quote →
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="h-5 w-5 animate-spin" />
+                    Submitting...
+                  </>
+                ) : (
+                  "Get My Free Quote →"
+                )}
               </button>
 
               <p

@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { MessageCircle, Phone, Star } from "lucide-react";
+import { Loader2, MessageCircle, Phone, Star } from "lucide-react";
 import { useEffect, useState } from "react";
 
 const industryOptions = [
@@ -17,6 +17,20 @@ const sqftOptions = [
   "20,000 - 30,000 Sq.ft",
   "30,000 - 50,000 Sq.ft",
   "50,000+ Sq.ft",
+];
+
+const timelineOptions = [
+  "Immediately",
+  "Within 1 Month",
+  "Within 3 Months",
+  "Planning for Future",
+];
+
+const budgetOptions = [
+  "Below ₹50 Lakhs",
+  "₹50 Lakhs – ₹1 Crore",
+  "₹1 Crore – ₹5 Crores",
+  "Above ₹5 Crores",
 ];
 
 const THANK_YOU_URL = "https://peb.mekark.com/thank-you";
@@ -69,10 +83,13 @@ export default function PebHeroSection() {
     location: "",
     industry: "",
     sqft: "",
+    projectTimeline: "",
+    projectBudget: "",
     message: "",
   });
 
   const [errors, setErrors] = useState<any>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -121,6 +138,16 @@ export default function PebHeroSection() {
       newErrors.sqft = "Select sq.ft range";
     }
 
+    // PROJECT TIMELINE
+    if (!formData.projectTimeline) {
+      newErrors.projectTimeline = "Select project start timeline";
+    }
+
+    // PROJECT BUDGET
+    if (!formData.projectBudget) {
+      newErrors.projectBudget = "Select project budget";
+    }
+
     setErrors(newErrors);
 
     return Object.keys(newErrors).length === 0;
@@ -134,6 +161,8 @@ export default function PebHeroSection() {
 
 
     if (!validateForm()) return;
+
+    setIsSubmitting(true);
 
     try {
       const response = await fetch(FORM_ENDPOINT, {
@@ -149,6 +178,8 @@ export default function PebHeroSection() {
           location: formData.location.trim(),
           industry: formData.industry.trim(),
           sqf: formData.sqft.trim(),
+          startTimeline: formData.projectTimeline.trim(),
+          budget: formData.projectBudget.trim(),
           message: formData.message.trim(),
         }),
       });
@@ -164,6 +195,7 @@ export default function PebHeroSection() {
       window.location.href = THANK_YOU_URL;
     } catch (error) {
       console.error(error);
+      setIsSubmitting(false);
     }
   };
   return (
@@ -928,6 +960,88 @@ lg:flex    items-center
                         )}
                       </div>
 
+                      {/* PROJECT TIMELINE */}
+                      <div>
+                        <select
+                          name="projectTimeline"
+                          value={formData.projectTimeline}
+                          onChange={handleChange}
+                          className="
+                      w-full
+                      h-[54px]
+                      rounded-[10px]
+                      border
+                      border-[#E5E5E5]
+                      bg-[#ECECEC]
+                      px-4
+                      text-[15px]
+                      font-medium
+                      text-black
+                      caret-black
+                      outline-none
+                      focus:border-[#D90916]
+                      focus:bg-white
+                      transition-all
+                      duration-300
+                    "
+                        >
+                          <option value="">Project Start Timeline*</option>
+
+                          {timelineOptions.map((option) => (
+                            <option key={option} value={option}>
+                              {option}
+                            </option>
+                          ))}
+                        </select>
+
+                        {errors.projectTimeline && (
+                          <p className="text-red-500 text-sm mt-2">
+                            {errors.projectTimeline}
+                          </p>
+                        )}
+                      </div>
+
+                      {/* PROJECT BUDGET */}
+                      <div>
+                        <select
+                          name="projectBudget"
+                          value={formData.projectBudget}
+                          onChange={handleChange}
+                          className="
+                      w-full
+                      h-[54px]
+                      rounded-[10px]
+                      border
+                      border-[#E5E5E5]
+                      bg-[#ECECEC]
+                      px-4
+                      text-[15px]
+                      font-medium
+                      text-black
+                      caret-black
+                      outline-none
+                      focus:border-[#D90916]
+                      focus:bg-white
+                      transition-all
+                      duration-300
+                    "
+                        >
+                          <option value="">Project Budget*</option>
+
+                          {budgetOptions.map((option) => (
+                            <option key={option} value={option}>
+                              {option}
+                            </option>
+                          ))}
+                        </select>
+
+                        {errors.projectBudget && (
+                          <p className="text-red-500 text-sm mt-2">
+                            {errors.projectBudget}
+                          </p>
+                        )}
+                      </div>
+
                       {/* LOCATION */}
                       <input
                         type="text"
@@ -988,6 +1102,7 @@ lg:flex    items-center
                     {/* BUTTON */}
                     <button
                       type="submit"
+                      disabled={isSubmitting}
                       className="
                   mt-3
                   w-full
@@ -1001,9 +1116,23 @@ lg:flex    items-center
                   transition-all
                   duration-300
                   hover:scale-[1.01]
+                  disabled:cursor-not-allowed
+                  disabled:opacity-70
+                  disabled:hover:scale-100
+                  flex
+                  items-center
+                  justify-center
+                  gap-2
                 "
                     >
-                      Get My Free Quote →
+                      {isSubmitting ? (
+                        <>
+                          <Loader2 className="h-5 w-5 animate-spin" />
+                          Submitting...
+                        </>
+                      ) : (
+                        "Get My Free Quote →"
+                      )}
                     </button>
                   </form>
 
