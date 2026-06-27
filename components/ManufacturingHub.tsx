@@ -8,6 +8,10 @@ import { Autoplay } from "swiper/modules";
 
 import "swiper/css";
 
+const WHATSAPP_NUMBER = "919790924754";
+const WHATSAPP_MESSAGE =
+    "Hello Mekark, I would like to discuss my PEB industrial construction project.";
+
 const factoryImages = [
     "/Images/new/i1.png",
     "/Images/new/i2.png",
@@ -296,7 +300,10 @@ export default function ManufacturingHub() {
                             </p>
 
                             {/* BUTTON */}
-                            <motion.button
+                            <motion.a
+                                href={`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
                                 whileHover={{
                                     x: 4,
                                 }}
@@ -323,7 +330,7 @@ export default function ManufacturingHub() {
                             >
                                 Contact Us
                                 <ArrowRight className="h-4 w-4" />
-                            </motion.button>
+                            </motion.a>
                         </motion.div>
                     </motion.div>
                 </div>
