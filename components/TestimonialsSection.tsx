@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, type Variants } from "framer-motion";
 import {
     ChevronLeft,
     ChevronRight,
@@ -64,7 +64,7 @@ const testimonials = [
 
 const AUTO_PLAY_MS = 6000;
 
-const headerVariants = {
+const headerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
         opacity: 1,
@@ -72,7 +72,7 @@ const headerVariants = {
     },
 };
 
-const headerItemVariants = {
+const headerItemVariants: Variants = {
     hidden: { opacity: 0, y: 24 },
     visible: {
         opacity: 1,
@@ -81,7 +81,7 @@ const headerItemVariants = {
     },
 };
 
-const cardVariants = {
+const cardVariants: Variants = {
     enter: (direction: number) => ({
         x: direction > 0 ? 80 : -80,
         opacity: 0,
