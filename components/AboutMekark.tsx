@@ -84,8 +84,8 @@ export default function AboutMekark() {
               lg:tracking-[-1.8px]
             "
           >
-            South India’s Most{" "}
-            <span className="text-[#CC000A]">Trusted</span> PEB Company
+            Trusted Industrial {" "}
+            <span className="text-[#CC000A]">EPC Contractor & PEB Manufacturer</span> 
           </h2>
         </motion.div>
 
@@ -167,14 +167,12 @@ export default function AboutMekark() {
                 sm:leading-[29.25px]
               "
             >
-              Founded in 2008, Mekark is a Chennai-based{" "}
-              <span className="font-normal">
-                pre-engineered building manufacturer
-              </span>{" "}
-              and turnkey EPC contractor serving industries across India. With
-              a fully integrated 6,00,000 sq.ft. manufacturing campus and a
-              300+ member engineering team, we don't just build — we engineer
-              industrial futures.
+              Founded in 2008, Mekark is a leading Pre Engineered Building
+              Contractor and Industrial EPC Contractor delivering turnkey
+              factory, warehouse and industrial steel building projects. With
+              40,000 MT annual production capacity, a 6 lakh sq.ft. integrated
+              manufacturing campus, and an experienced engineering team, we
+              execute projects with speed, precision and complete accountability.
             </motion.p>
 
             {/* Paragraph 2 */}
@@ -192,13 +190,9 @@ export default function AboutMekark() {
                 sm:text-[16px]
               "
             >
-              From{" "}
-              <span className="font-medium">
-                peb structure manufacturing
-              </span>{" "}
-              to design, supply and erection — every step is owned in-house for
-              unmatched quality control and speed. ISO certified. Green
-              certified. Globally benchmarked.
+              Every stage—from engineering and steel fabrication to site
+              erection—is managed in-house, ensuring superior quality,
+              predictable timelines and single-point responsibility.
             </motion.p>
 
             {/* STATS CARDS */}

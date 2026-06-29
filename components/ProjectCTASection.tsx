@@ -522,15 +522,16 @@ export default function ProjectCTASection() {
               id="quote-form"
               className="mt-8 space-y-4"
             >
-              {/* NAME */}
-              <div>
-                <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  placeholder="Enter Your Full Name*"
-                  className="
+              {/* NAME & COMPANY */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <input
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    placeholder="Enter Your Full Name*"
+                    className="
                     w-full
                     h-[54px]
                     rounded-[10px]
@@ -549,21 +550,20 @@ export default function ProjectCTASection() {
                     transition-all
                     duration-300
                   "
-                />
+                  />
 
-                {errors.name && (
-                  <p className="text-red-500 text-sm mt-2">{errors.name}</p>
-                )}
-              </div>
+                  {errors.name && (
+                    <p className="text-red-500 text-sm mt-2">{errors.name}</p>
+                  )}
+                </div>
 
-              {/* COMPANY */}
-              <input
-                type="text"
-                name="company"
-                value={formData.company}
-                onChange={handleChange}
-                placeholder="Enter Company Name"
-                className="
+                <input
+                  type="text"
+                  name="company"
+                  value={formData.company}
+                  onChange={handleChange}
+                  placeholder="Enter Company Name"
+                  className="
                   w-full
                   h-[54px]
                   rounded-[10px]
@@ -582,7 +582,8 @@ export default function ProjectCTASection() {
                   transition-all
                   duration-300
                 "
-              />
+                />
+              </div>
 
               {/* GRID */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

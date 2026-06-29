@@ -73,15 +73,11 @@ export default function WorldClassEngineering() {
                 lg:tracking-[-1.0px]
               "
             >
-              <span className="font-bold text-white">
-                World Class
-              </span>
+              <span className="font-bold text-white">World Class</span>
 
               <br />
 
-              <span className="text-white/40">
-                Engineering.
-              </span>
+              <span className="text-white/40">Engineering.</span>
             </h2>
 
             {/* DESCRIPTION */}
@@ -96,9 +92,9 @@ export default function WorldClassEngineering() {
                 text-white/70
               "
             >
-              Though based in Chennai, our engineering standards meet
-              global specifications. We export structural components and
-              design expertise.
+              Though based in Chennai, our engineering standards meet global
+              specifications. We export structural components and design
+              expertise.
             </p>
           </motion.div>
 
@@ -110,30 +106,30 @@ export default function WorldClassEngineering() {
             viewport={{ once: true }}
             className="w-full"
           >
-{/* GRID BOX */}
-<div
-  className="
+            {/* GRID BOX */}
+            <div
+              className="
     overflow-hidden
     rounded-[14px]
     border
     border-white/10
     backdrop-blur-md
   "
->
-  {/* TOP ROW */}
-  <div
-    className="
+            >
+              {/* TOP ROW */}
+              <div
+                className="
       grid
       grid-cols-3
       border-b
       border-white/10
       bg-[#040303]
     "
-  >
-    {/* BOX 1 */}
-    <motion.div
-      whileHover={{ y: -4 }}
-      className="
+              >
+                {/* BOX 1 */}
+                <motion.div
+                  whileHover={{ y: -4 }}
+                  className="
         flex
         flex-col
         items-center
@@ -144,20 +140,20 @@ export default function WorldClassEngineering() {
         py-8
         text-center
       "
-    >
-      <h3
-        className="
+                >
+                  <h3
+                    className="
           font-space-grotesk
           text-[34px]
           font-bold
           text-[#E50818]
         "
-      >
-        15+
-      </h3>
+                  >
+                    18+
+                  </h3>
 
-      <p
-        className="
+                  <p
+                    className="
           mt-2
           font-manrope
           text-[12px]
@@ -165,17 +161,17 @@ export default function WorldClassEngineering() {
           tracking-[1.2px]
           text-white/65
         "
-      >
-        Years
-        <br />
-        Experience
-      </p>
-    </motion.div>
+                  >
+                    Years
+                    <br />
+                    Experience
+                  </p>
+                </motion.div>
 
-    {/* BOX 2 */}
-    <motion.div
-      whileHover={{ y: -4 }}
-      className="
+                {/* BOX 2 */}
+                <motion.div
+                  whileHover={{ y: -4 }}
+                  className="
         flex
         flex-col
         items-center
@@ -186,20 +182,20 @@ export default function WorldClassEngineering() {
         py-8
         text-center
       "
-    >
-      <h3
-        className="
+                >
+                  <h3
+                    className="
           font-space-grotesk
           text-[34px]
           font-bold
           text-[#E50818]
         "
-      >
-        500+
-      </h3>
+                  >
+                    450+
+                  </h3>
 
-      <p
-        className="
+                  <p
+                    className="
           mt-2
           font-manrope
           text-[12px]
@@ -207,15 +203,15 @@ export default function WorldClassEngineering() {
           tracking-[1.2px]
           text-white/65
         "
-      >
-        Projects
-      </p>
-    </motion.div>
+                  >
+                    Projects
+                  </p>
+                </motion.div>
 
-    {/* BOX 3 */}
-    <motion.div
-      whileHover={{ y: -4 }}
-      className="
+                {/* BOX 3 */}
+                <motion.div
+                  whileHover={{ y: -4 }}
+                  className="
         flex
         flex-col
         items-center
@@ -224,20 +220,20 @@ export default function WorldClassEngineering() {
         py-8
         text-center
       "
-    >
-      <h3
-        className="
+                >
+                  <h3
+                    className="
           font-space-grotesk
           text-[34px]
           font-bold
           text-[#E50818]
         "
-      >
-        100%
-      </h3>
+                  >
+                    97.8%
+                  </h3>
 
-      <p
-        className="
+                  <p
+                    className="
           mt-2
           font-manrope
           text-[12px]
@@ -245,26 +241,26 @@ export default function WorldClassEngineering() {
           tracking-[1.2px]
           text-white/65
         "
-      >
-        On-Time
-      </p>
-    </motion.div>
-  </div>
+                  >
+                    On-Time
+                  </p>
+                </motion.div>
+              </div>
 
-  {/* BOTTOM ROW */}
-  <div
-    className="
+              {/* BOTTOM ROW */}
+              <div
+                className="
       grid
       grid-cols-1
       bg-white/5
 
       sm:grid-cols-3
     "
-  >
-    {/* ISO */}
-    <motion.div
-      whileHover={{ scale: 1.03 }}
-      className="
+              >
+                {/* ISO */}
+                <motion.div
+                  whileHover={{ scale: 1.03 }}
+                  className="
         flex
         items-center
         justify-center
@@ -277,10 +273,10 @@ export default function WorldClassEngineering() {
 
         sm:border-b-0
       "
-    >
-      {/* ISO IMAGE */}
-      <div
-        className="
+                >
+                  {/* ISO IMAGE */}
+                  <div
+                    className="
           flex
           h-[88px]
           w-[88px]
@@ -290,22 +286,22 @@ export default function WorldClassEngineering() {
           bg-white
           p-2
         "
-      >
-        <Image
-          src="/Images/iso (1).jpg"
-          alt="ISO"
-          width={88}
-          height={88}
-          className="
+                  >
+                    <Image
+                      src="/Images/iso (1).jpg"
+                      alt="ISO"
+                      width={88}
+                      height={88}
+                      className="
             object-contain
             rounded-full
           "
-        />
-      </div>
+                    />
+                  </div>
 
-      <div>
-        <p
-          className="
+                  <div>
+                    <p
+                      className="
             font-manrope
             text-[11px]
             font-bold
@@ -313,30 +309,30 @@ export default function WorldClassEngineering() {
             tracking-[1px]
             text-white
           "
-        >
-          ISO 9001:2015
-        </p>
+                    >
+                      ISO 9001:2015
+                    </p>
 
-        <p
-          className="
+                    <p
+                      className="
             mt-1
             text-[10px]
             uppercase
             tracking-[1px]
             text-white/60
           "
-        >
-          Certified
-          <br />
-          Quality
-        </p>
-      </div>
-    </motion.div>
+                    >
+                      Certified
+                      <br />
+                      Quality
+                    </p>
+                  </div>
+                </motion.div>
 
-    {/* MBMA */}
-    <motion.div
-      whileHover={{ scale: 1.03 }}
-      className="
+                {/* MBMA */}
+                <motion.div
+                  whileHover={{ scale: 1.03 }}
+                  className="
         flex
         flex-col
         items-center
@@ -350,36 +346,36 @@ export default function WorldClassEngineering() {
 
         sm:border-b-0
       "
-    >
-      <Image
-        src="/Images/mbma.png"
-        alt="MBMA"
-        width={150}
-        height={70}
-        className="object-contain"
-      />
+                >
+                  <Image
+                    src="/Images/mbma.png"
+                    alt="MBMA"
+                    width={150}
+                    height={70}
+                    className="object-contain"
+                  />
 
-      <p
-        className="
+                  <p
+                    className="
           mt-3
           text-[10px]
           uppercase
           tracking-[1px]
           text-white/60
         "
-      >
-        Global
-        <br />
-        Design
-        <br />
-        Standards
-      </p>
-    </motion.div>
+                  >
+                    Global
+                    <br />
+                    Design
+                    <br />
+                    Standards
+                  </p>
+                </motion.div>
 
-    {/* LOCATION */}
-    <motion.div
-      whileHover={{ scale: 1.03 }}
-      className="
+                {/* LOCATION */}
+                <motion.div
+                  whileHover={{ scale: 1.03 }}
+                  className="
         flex
         flex-col
         items-center
@@ -388,32 +384,32 @@ export default function WorldClassEngineering() {
         py-8
         text-center
       "
-    >
-      <h4
-        className="
+                >
+                  <h4
+                    className="
           font-manrope
           text-[20px]
           font-bold
           text-white
         "
-      >
-        Chennai
-      </h4>
+                  >
+                    Chennai
+                  </h4>
 
-      <p
-        className="
+                  <p
+                    className="
           mt-2
           text-[11px]
           uppercase
           tracking-[1.2px]
           text-white/60
         "
-      >
-        HQ — India
-      </p>
-    </motion.div>
-  </div>
-</div>
+                  >
+                    HQ — India
+                  </p>
+                </motion.div>
+              </div>
+            </div>
 
             {/* BOTTOM TEXT */}
             <motion.div

@@ -382,19 +382,21 @@ lg:py-10
                     lg:leading-[23px]
                   "
                 >
-                  Trusted warehouse construction company and pre engineered
-                  building company delivering factories, industrial warehouses,
-                  and steel building projects across Chennai & South India.{" "}
+                  Trusted Pre Engineered Building Contractor and Industrial EPC
+                  Contractor delivering premium Factory Construction, Warehouse
+                  Construction, Industrial Steel Building Construction, and
+                  turnkey PEB projects across Chennai, Coimbatore & South India.
                 </h2>
 
                 {/* FEATURES */}
                 <div className="mt-8 space-y-1 max-w-[760px]">
                   {[
-                    "High-Capacity Manufacturing (3000+ Tons / Month) for Fast Project Delivery",
-                    "ISO-Certified Quality Systems for Consistent Structural Performance",
-                    "Fully Equipped with Advanced Automated Machinery",
-                    "Green-Certified Facility Supporting Sustainable Construction",
-                    "6 Lakh Sq. Ft In-House Manufacturing Ecosystem",
+                    "Leading Pre Engineered Building Company for Industrial & Commercial Projects",
+                    "End-to-End Industrial EPC Contractor with Design, Manufacturing & Erection",
+                    "Trusted Factory Construction Company & Warehouse Building Contractor",
+                    "Advanced PEB Steel Structure Contractors with 40,000+ MT Annual Production",
+                    "Turnkey Industrial Warehouse Construction & Manufacturing Plant Solutions",
+                    "Serving Chennai, Coimbatore & South India with Fast-Track Project Delivery",
                   ].map((item, index) => (
                     <div key={index} className="flex items-start gap-4">
                       {/* ARROW ICON */}
@@ -553,7 +555,7 @@ lg:grid
                       label: "Projects",
                     },
                     {
-                      number: "15+",
+                      number: "18+",
                       label: "Years Experience",
                     },
                     {
@@ -561,7 +563,7 @@ lg:grid
                       label: "Annual Production",
                     },
                     {
-                      number: "300+",
+                      number: "400+",
                       label: "Engineering Team",
                     },
                   ].map((item, index) => (
@@ -691,6 +693,7 @@ lg:flex    items-center
                   flex
                   justify-center
                   lg:justify-end
+                  lg:-mt-4
                 "
               >
                 <div
@@ -736,15 +739,16 @@ lg:flex    items-center
 
                   {/* FORM */}
                   <form onSubmit={handleSubmit} className="mt-8 space-y-4">
-                    {/* NAME */}
-                    <div>
-                      <input
-                        type="text"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        placeholder="Enter Your Full Name*"
-                        className="
+                    {/* NAME & COMPANY */}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div>
+                        <input
+                          type="text"
+                          name="name"
+                          value={formData.name}
+                          onChange={handleChange}
+                          placeholder="Enter Your Full Name*"
+                          className="
                     w-full
                     h-[54px]
                     rounded-[10px]
@@ -763,23 +767,22 @@ lg:flex    items-center
                     transition-all
                     duration-300
                   "
-                      />
+                        />
 
-                      {errors.name && (
-                        <p className="text-red-500 text-sm mt-2">
-                          {errors.name}
-                        </p>
-                      )}
-                    </div>
+                        {errors.name && (
+                          <p className="text-red-500 text-sm mt-2">
+                            {errors.name}
+                          </p>
+                        )}
+                      </div>
 
-                    {/* COMPANY */}
-                    <input
-                      type="text"
-                      name="company"
-                      value={formData.company}
-                      onChange={handleChange}
-                      placeholder="Enter Company Name"
-                      className="
+                      <input
+                        type="text"
+                        name="company"
+                        value={formData.company}
+                        onChange={handleChange}
+                        placeholder="Enter Company Name"
+                        className="
                   w-full
                   h-[54px]
                   rounded-[10px]
@@ -798,7 +801,8 @@ lg:flex    items-center
                   transition-all
                   duration-300
                 "
-                    />
+                      />
+                    </div>
 
                     {/* GRID */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">

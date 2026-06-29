@@ -1,13 +1,13 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import {
     ChevronLeft,
     ChevronRight,
     Quote,
     Star,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const testimonials = [
     {
@@ -62,102 +62,148 @@ const testimonials = [
     },
 ];
 
+const AUTO_PLAY_MS = 6000;
+
+const headerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: { staggerChildren: 0.12 },
+    },
+};
+
+const headerItemVariants = {
+    hidden: { opacity: 0, y: 24 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: { duration: 0.55, ease: "easeOut" },
+    },
+};
+
+const cardVariants = {
+    enter: (direction: number) => ({
+        x: direction > 0 ? 80 : -80,
+        opacity: 0,
+        scale: 0.96,
+    }),
+    center: {
+        x: 0,
+        opacity: 1,
+        scale: 1,
+        transition: {
+            duration: 0.55,
+            ease: [0.22, 1, 0.36, 1],
+        },
+    },
+    exit: (direction: number) => ({
+        x: direction > 0 ? -80 : 80,
+        opacity: 0,
+        scale: 0.96,
+        transition: { duration: 0.4, ease: "easeIn" },
+    }),
+};
+
 export default function TestimonialsSection() {
-    const [activeIndex, setActiveIndex] =
-        useState(0);
+    const [activeIndex, setActiveIndex] = useState(0);
+    const [direction, setDirection] = useState(1);
+    const [progressKey, setProgressKey] = useState(0);
 
-    const nextSlide = () => {
-        setActiveIndex((prev) =>
-            prev === testimonials.length - 1
-                ? 0
-                : prev + 1
-        );
-    };
-
-    const prevSlide = () => {
-        setActiveIndex((prev) =>
-            prev === 0
-                ? testimonials.length - 1
-                : prev - 1
-        );
-    };
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            nextSlide();
-        }, 6000);
-
-        return () => clearInterval(interval);
+    const goToSlide = useCallback((index: number, dir: number) => {
+        setDirection(dir);
+        setActiveIndex(index);
+        setProgressKey((prev) => prev + 1);
     }, []);
 
+    const nextSlide = useCallback(() => {
+        setDirection(1);
+        setActiveIndex((prev) =>
+            prev === testimonials.length - 1 ? 0 : prev + 1,
+        );
+        setProgressKey((prev) => prev + 1);
+    }, []);
+
+    const prevSlide = useCallback(() => {
+        setDirection(-1);
+        setActiveIndex((prev) =>
+            prev === 0 ? testimonials.length - 1 : prev - 1,
+        );
+        setProgressKey((prev) => prev + 1);
+    }, []);
+
+    useEffect(() => {
+        const interval = setInterval(nextSlide, AUTO_PLAY_MS);
+        return () => clearInterval(interval);
+    }, [nextSlide]);
+
+    const activeTestimonial = testimonials[activeIndex];
+
     return (
-        <section id="testimonials"
-            className="relative overflow-hidden bg-[#050505] py-20 lg:py-28">
-            {/* Background Glow */}
-            <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-[#E40015]/10 blur-[140px]" />
+        <section
+            id="testimonials"
+            className="relative overflow-hidden bg-white py-20 lg:py-28"
+        >
+            {/* Decorative background */}
+            <motion.div
+                animate={{ y: [0, -18, 0], x: [0, 12, 0] }}
+                transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+                className="pointer-events-none absolute -top-24 -left-24 h-[420px] w-[420px] rounded-full bg-[#E40015]/[0.06] blur-[80px]"
+            />
+            <motion.div
+                animate={{ y: [0, 20, 0], x: [0, -10, 0] }}
+                transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+                className="pointer-events-none absolute -right-20 bottom-0 h-[380px] w-[380px] rounded-full bg-[#E40015]/[0.05] blur-[90px]"
+            />
+            <div
+                className="pointer-events-none absolute inset-0 opacity-[0.35]"
+                style={{
+                    backgroundImage:
+                        "radial-gradient(circle, #E40015 1px, transparent 1px)",
+                    backgroundSize: "28px 28px",
+                }}
+            />
 
-            <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-[#E40015]/10 blur-[140px]" />
-
-            <div className="relative z-10 max-w-[1450px] mx-auto px-5 sm:px-8 lg:px-14">
+            <div className="relative z-10 mx-auto max-w-[1450px] px-5 sm:px-8 lg:px-14">
                 {/* TOP */}
-                <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-10 mb-14">
-                    {/* LEFT */}
-                    <div className="max-w-[760px]">
-                        {/* Badge */}
+                <div className="mb-14 flex flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
+                    <motion.div
+                        variants={headerVariants}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        className="max-w-[760px]"
+                    >
                         <motion.div
-                            initial={{
-                                opacity: 0,
-                                y: 20,
-                            }}
-                            whileInView={{
-                                opacity: 1,
-                                y: 0,
-                            }}
-                            transition={{
-                                duration: 0.5,
-                            }}
-                            viewport={{ once: true }}
+                            variants={headerItemVariants}
                             className="
-                inline-flex
-                items-center
-                justify-center
-                px-[14px]
-                py-[6px]
-                rounded-full
-                border
-                border-[#FCD5D0]
-                bg-[#FEEAE7]
-                mb-7
-              "
+                                mb-7
+                                inline-flex
+                                items-center
+                                justify-center
+                                rounded-full
+                                border
+                                border-[#FCD5D0]
+                                bg-[#FEEAE7]
+                                px-[14px]
+                                py-[6px]
+                            "
                         >
                             <span className="text-[13px] font-semibold leading-[19.5px] text-[#CC000A]">
                                 Client Testimonials
                             </span>
                         </motion.div>
 
-                        {/* Heading */}
                         <motion.h2
-                            initial={{
-                                opacity: 0,
-                                y: 30,
-                            }}
-                            whileInView={{
-                                opacity: 1,
-                                y: 0,
-                            }}
-                            transition={{
-                                duration: 0.7,
-                            }}
-                            viewport={{ once: true }}
+                            variants={headerItemVariants}
                             className="
-                text-white
-                text-[42px]
-                sm:text-[56px]
-                lg:text-[52px]
-                leading-[1]
-                tracking-[-2px]
-                font-bold
-              "
+                                text-[42px]
+                                font-bold
+                                leading-[1]
+                                tracking-[-2px]
+                                text-[#121212]
+                                sm:text-[56px]
+                                lg:text-[52px]
+                            "
                         >
                             Trusted by{" "}
                             <span className="text-[#E40015]">
@@ -165,337 +211,300 @@ export default function TestimonialsSection() {
                             </span>
                         </motion.h2>
 
-                        {/* Description */}
                         <motion.p
-                            initial={{
-                                opacity: 0,
-                                y: 30,
-                            }}
-                            whileInView={{
-                                opacity: 1,
-                                y: 0,
-                            }}
-                            transition={{
-                                duration: 0.8,
-                            }}
-                            viewport={{ once: true }}
+                            variants={headerItemVariants}
                             className="
-                mt-7
-                text-white/65
-                text-[17px]
-                sm:text-[18px]
-                leading-[30px]
-                font-medium
-                max-w-[620px]
-              "
+                                mt-7
+                                max-w-[620px]
+                                text-[17px]
+                                font-medium
+                                leading-[30px]
+                                text-[#666666]
+                                sm:text-[18px]
+                            "
                         >
-                            Real experiences from
-                            manufacturers, developers,
-                            logistics companies and
-                            industrial businesses across
+                            Real experiences from manufacturers, developers,
+                            logistics companies and industrial businesses across
                             India.
                         </motion.p>
-                    </div>
+                    </motion.div>
 
-                    {/* Buttons */}
-                    <div className="flex items-center gap-4">
-                        <button
+                    {/* Nav buttons */}
+                    <motion.div
+                        initial={{ opacity: 0, x: 30 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.6, delay: 0.2 }}
+                        viewport={{ once: true }}
+                        className="flex items-center gap-4"
+                    >
+                        <motion.button
+                            whileHover={{ scale: 1.08 }}
+                            whileTap={{ scale: 0.95 }}
                             onClick={prevSlide}
                             className="
-                w-14
-                h-14
-                rounded-full
-                border
-                border-white/10
-                bg-white/5
-                hover:bg-[#E40015]
-                transition-all
-                duration-300
-                flex
-                items-center
-                justify-center
-                text-white
-              "
+                                flex
+                                h-14
+                                w-14
+                                items-center
+                                justify-center
+                                rounded-full
+                                border
+                                border-[#E5E5E5]
+                                bg-white
+                                text-[#121212]
+                                shadow-[0_4px_20px_rgba(0,0,0,0.06)]
+                                transition-colors
+                                duration-300
+                                hover:border-[#E40015]
+                                hover:text-[#E40015]
+                            "
                         >
                             <ChevronLeft size={22} />
-                        </button>
+                        </motion.button>
 
-                        <button
+                        <motion.button
+                            whileHover={{ scale: 1.08 }}
+                            whileTap={{ scale: 0.95 }}
                             onClick={nextSlide}
                             className="
-                w-14
-                h-14
-                rounded-full
-                border
-                border-white/10
-                bg-[#E40015]
-                hover:bg-red-700
-                transition-all
-                duration-300
-                flex
-                items-center
-                justify-center
-                text-white
-              "
+                                flex
+                                h-14
+                                w-14
+                                items-center
+                                justify-center
+                                rounded-full
+                                bg-[#E40015]
+                                text-white
+                                shadow-[0_8px_24px_rgba(228,0,21,0.3)]
+                                transition-colors
+                                duration-300
+                                hover:bg-red-700
+                            "
                         >
                             <ChevronRight size={22} />
-                        </button>
-                    </div>
-                </div>
-
-                {/* CAROUSEL */}
-                {/* CAROUSEL */}
-                <div className="relative overflow-hidden">
-                    <motion.div
-                        animate={{
-                            x: `-${activeIndex * 100}%`,
-                        }}
-                        transition={{
-                            duration: 0.7,
-                            ease: "easeInOut",
-                        }}
-                        className="flex"
-                    >
-                        {testimonials.map(
-                            (testimonial, index) => (
-                                <div
-                                    key={testimonial.id}
-                                    className="
-            min-w-full
-
-            flex
-            justify-center
-
-            px-2
-          "
-                                >
-                                    <div
-                                        className="
-              relative
-              overflow-hidden
-
-              w-full
-              max-w-[980px]
-
-              rounded-[26px]
-
-              border
-              border-white/10
-
-              bg-[linear-gradient(180deg,#161616_0%,#0C0C0C_100%)]
-
-              p-6
-              sm:p-7
-              lg:p-9
-
-              min-h-[420px]
-              lg:min-h-[360px]
-            "
-                                    >
-                                        {/* Quote */}
-                                        <div
-                                            className="
-                absolute
-                top-6
-                right-6
-
-                w-14
-                h-14
-
-                rounded-full
-                bg-[#E40015]/10
-
-                flex
-                items-center
-                justify-center
-              "
-                                        >
-                                            <Quote
-                                                className="text-[#E40015]"
-                                                size={24}
-                                            />
-                                        </div>
-
-                                        {/* Stars */}
-                                        <div className="flex items-center gap-1">
-                                            {[1, 2, 3, 4, 5].map(
-                                                (star) => (
-                                                    <Star
-                                                        key={star}
-                                                        className="
-                      w-4
-                      h-4
-                      fill-[#FFB800]
-                      text-[#FFB800]
-                    "
-                                                    />
-                                                )
-                                            )}
-                                        </div>
-
-                                        {/* Category */}
-                                        <p
-                                            className="
-                mt-5
-
-                text-[#E40015]
-
-                text-[11px]
-                sm:text-xs
-
-                font-bold
-                uppercase
-
-                tracking-[1px]
-              "
-                                        >
-                                            {testimonial.title}
-                                        </p>
-
-                                        {/* Content */}
-                                        <p
-                                            className="
-                mt-5
-
-                text-white/90
-
-                text-[15px]
-                sm:text-[17px]
-                lg:text-[19px]
-
-                leading-[30px]
-                lg:leading-[34px]
-
-                font-medium
-              "
-                                        >
-                                            “
-                                            {testimonial.content}
-                                            ”
-                                        </p>
-
-                                        {/* Bottom */}
-                                        <div
-                                            className="
-                mt-8
-
-                flex
-                flex-col
-                sm:flex-row
-
-                sm:items-center
-                sm:justify-between
-
-                gap-5
-              "
-                                        >
-                                            {/* User */}
-                                            <div className="flex items-center gap-4">
-                                                {/* Avatar */}
-                                                <div
-                                                    className="
-                    w-14
-                    h-14
-
-                    rounded-full
-
-                    bg-[#E40015]
-
-                    flex
-                    items-center
-                    justify-center
-
-                    text-white
-                    font-bold
-                    text-lg
-
-                    shrink-0
-                  "
-                                                >
-                                                    {testimonial.name
-                                                        .split(" ")
-                                                        .map(
-                                                            (word) =>
-                                                                word[0]
-                                                        )
-                                                        .slice(0, 2)
-                                                        .join("")}
-                                                </div>
-
-                                                {/* Details */}
-                                                <div>
-                                                    <h4
-                                                        className="
-                      text-white
-
-                      text-[18px]
-                      sm:text-[20px]
-
-                      font-bold
-                    "
-                                                    >
-                                                        {testimonial.name}
-                                                    </h4>
-
-                                                    <p
-                                                        className="
-                      text-white/60
-
-                      text-[13px]
-                      sm:text-[14px]
-
-                      mt-1
-                    "
-                                                    >
-                                                        {testimonial.role} •{" "}
-                                                        {testimonial.location}
-                                                    </p>
-                                                </div>
-                                            </div>
-
-                                            {/* Slide Number */}
-                                            <div
-                                                className="
-                  text-white/20
-
-                  text-[48px]
-                  lg:text-[70px]
-
-                  font-bold
-
-                  leading-none
-                "
-                                            >
-                                                0{index + 1}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            )
-                        )}
+                        </motion.button>
                     </motion.div>
                 </div>
 
-                {/* Dots */}
-                <div className="flex items-center justify-center gap-3 mt-10">
-                    {testimonials.map((_, index) => (
-                        <button
-                            key={index}
-                            onClick={() =>
-                                setActiveIndex(index)
-                            }
-                            className={`
-                transition-all
-                duration-300
-                rounded-full
+                {/* CAROUSEL */}
+                <div className="relative min-h-[420px] overflow-hidden lg:min-h-[360px]">
+                    <AnimatePresence mode="wait" custom={direction}>
+                        <motion.div
+                            key={activeTestimonial.id}
+                            custom={direction}
+                            variants={cardVariants}
+                            initial="enter"
+                            animate="center"
+                            exit="exit"
+                            className="flex justify-center px-2"
+                        >
+                            <motion.div
+                                whileHover={{ y: -6 }}
+                                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                                className="
+                                    relative
+                                    w-full
+                                    max-w-[980px]
+                                    overflow-hidden
+                                    rounded-[26px]
+                                    border
+                                    border-[#EFEFEF]
+                                    bg-white
+                                    p-6
+                                    shadow-[0_20px_60px_rgba(0,0,0,0.08)]
+                                    sm:p-7
+                                    lg:p-9
+                                "
+                            >
+                                {/* Accent bar */}
+                                <motion.div
+                                    initial={{ scaleX: 0 }}
+                                    animate={{ scaleX: 1 }}
+                                    transition={{ duration: 0.6, delay: 0.15 }}
+                                    className="absolute top-0 left-0 h-1 w-full origin-left bg-[#E40015]"
+                                />
 
-                ${activeIndex === index
-                                    ? "w-10 h-3 bg-[#E40015]"
-                                    : "w-3 h-3 bg-white/20"
-                                }
-              `}
+                                {/* Quote */}
+                                <motion.div
+                                    animate={{ rotate: [0, -8, 0, 8, 0] }}
+                                    transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+                                    className="
+                                        absolute
+                                        top-6
+                                        right-6
+                                        flex
+                                        h-14
+                                        w-14
+                                        items-center
+                                        justify-center
+                                        rounded-full
+                                        bg-[#FEEAE7]
+                                    "
+                                >
+                                    <Quote className="text-[#E40015]" size={24} />
+                                </motion.div>
+
+                                {/* Stars */}
+                                <div className="flex items-center gap-1">
+                                    {[1, 2, 3, 4, 5].map((star, i) => (
+                                        <motion.div
+                                            key={star}
+                                            initial={{ opacity: 0, scale: 0, rotate: -30 }}
+                                            animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                                            transition={{
+                                                delay: 0.1 + i * 0.08,
+                                                type: "spring",
+                                                stiffness: 400,
+                                                damping: 12,
+                                            }}
+                                        >
+                                            <Star className="h-4 w-4 fill-[#FFB800] text-[#FFB800]" />
+                                        </motion.div>
+                                    ))}
+                                </div>
+
+                                <motion.p
+                                    initial={{ opacity: 0, x: -16 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{ delay: 0.2, duration: 0.4 }}
+                                    className="
+                                        mt-5
+                                        text-[11px]
+                                        font-bold
+                                        uppercase
+                                        tracking-[1px]
+                                        text-[#E40015]
+                                        sm:text-xs
+                                    "
+                                >
+                                    {activeTestimonial.title}
+                                </motion.p>
+
+                                <motion.p
+                                    initial={{ opacity: 0, y: 16 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: 0.28, duration: 0.5 }}
+                                    className="
+                                        mt-5
+                                        text-[15px]
+                                        font-medium
+                                        leading-[30px]
+                                        text-[#333333]
+                                        sm:text-[17px]
+                                        lg:text-[19px]
+                                        lg:leading-[34px]
+                                    "
+                                >
+                                    &ldquo;{activeTestimonial.content}&rdquo;
+                                </motion.p>
+
+                                <motion.div
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: 0.38, duration: 0.45 }}
+                                    className="
+                                        mt-8
+                                        flex
+                                        flex-col
+                                        gap-5
+                                        sm:flex-row
+                                        sm:items-center
+                                        sm:justify-between
+                                    "
+                                >
+                                    <div className="flex items-center gap-4">
+                                        <motion.div
+                                            initial={{ scale: 0 }}
+                                            animate={{ scale: 1 }}
+                                            transition={{
+                                                delay: 0.42,
+                                                type: "spring",
+                                                stiffness: 350,
+                                                damping: 15,
+                                            }}
+                                            className="
+                                                flex
+                                                h-14
+                                                w-14
+                                                shrink-0
+                                                items-center
+                                                justify-center
+                                                rounded-full
+                                                bg-[#E40015]
+                                                text-lg
+                                                font-bold
+                                                text-white
+                                            "
+                                        >
+                                            {activeTestimonial.name
+                                                .split(" ")
+                                                .map((word) => word[0])
+                                                .slice(0, 2)
+                                                .join("")}
+                                        </motion.div>
+
+                                        <div>
+                                            <h4 className="text-[18px] font-bold text-[#121212] sm:text-[20px]">
+                                                {activeTestimonial.name}
+                                            </h4>
+                                            <p className="mt-1 text-[13px] text-[#888888] sm:text-[14px]">
+                                                {activeTestimonial.role} •{" "}
+                                                {activeTestimonial.location}
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <motion.div
+                                        initial={{ opacity: 0, scale: 0.5 }}
+                                        animate={{ opacity: 1, scale: 1 }}
+                                        transition={{ delay: 0.5, duration: 0.4 }}
+                                        className="
+                                            text-[48px]
+                                            font-bold
+                                            leading-none
+                                            text-[#F0F0F0]
+                                            lg:text-[70px]
+                                        "
+                                    >
+                                        0{activeIndex + 1}
+                                    </motion.div>
+                                </motion.div>
+                            </motion.div>
+                        </motion.div>
+                    </AnimatePresence>
+                </div>
+
+                {/* Dots + progress */}
+                <div className="mt-10 flex flex-col items-center gap-5">
+                    <div className="flex items-center justify-center gap-3">
+                        {testimonials.map((_, index) => (
+                            <motion.button
+                                key={index}
+                                whileHover={{ scale: 1.2 }}
+                                whileTap={{ scale: 0.9 }}
+                                onClick={() => goToSlide(index, index > activeIndex ? 1 : -1)}
+                                className={`
+                                    rounded-full
+                                    transition-all
+                                    duration-300
+                                    ${activeIndex === index
+                                        ? "h-3 w-10 bg-[#E40015]"
+                                        : "h-3 w-3 bg-[#DDDDDD] hover:bg-[#CCCCCC]"
+                                    }
+                                `}
+                            />
+                        ))}
+                    </div>
+
+                    <div className="h-1 w-full max-w-[200px] overflow-hidden rounded-full bg-[#EFEFEF]">
+                        <motion.div
+                            key={progressKey}
+                            initial={{ width: "0%" }}
+                            animate={{ width: "100%" }}
+                            transition={{ duration: AUTO_PLAY_MS / 1000, ease: "linear" }}
+                            className="h-full rounded-full bg-[#E40015]/40"
                         />
-                    ))}
+                    </div>
                 </div>
             </div>
         </section>
